@@ -1949,6 +1949,56 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
     "Order matters: positional, *args, keyword-only, **kwargs. Use descriptive names like *values, **options when clearer."
   ),
 
+  // --- ABOUT ---
+  "About Me": createContent(
+    "About Me",
+    "Beginner",
+    "Learn more about the creator of PyTaste and connect on social media.",
+    [
+      {
+        heading: "Creator",
+        content: "**Made by 1mystic / Atharv Khare**\n\nCurrently a student at **IIT Madras BS Data Science**",
+        codeBlock: { language: "python", code: "# Thank you for using PyTaste!\nprint('Happy Learning! 🚀')", output: "Happy Learning! 🚀" }
+      },
+      {
+        heading: "Connect With Me",
+        content: "Feel free to reach out on any of these platforms:",
+        codeBlock: {
+          language: "python",
+          code: "socials = {\n  'GitHub': 'github.com/1mystic',\n  'LinkedIn': 'linkedin.com/in/atharvkhare',\n  'Twitter/X': 'twitter.com/1mystic4u',\n  'Email': 'atharvkhare18@gmail.com'\n}\n\nfor platform, link in socials.items():\n  print(f'{platform}: {link}')",
+          output: "GitHub: github.com/1mystic\nLinkedIn: linkedin.com/in/atharvkhare\nTwitter/X: twitter.com/1mystic4u\nEmail: atharvkhare18@gmail.com"
+        }
+      },
+      {
+        heading: "Social Links",
+        content: "**GitHub:** [1mystic](https://github.com/1mystic)\n\n**LinkedIn:** [atharvkhare](https://linkedin.com/in/atharvkhare)\n\n**Twitter/X:** [@1mystic4u](https://twitter.com/1mystic4u)\n\n**Email:** atharvkhare18@gmail.com",
+        codeBlock: {
+          language: "python",
+          code: "# PyTaste - Learn Python from Scratch to Mastery\n# An interactive Python learning platform\n\nprint('Made with ❤️ by Atharv Khare')\nprint('Happy coding!')",
+          output: "Made with ❤️ by Atharv Khare\nHappy coding!"
+        }
+      }
+    ],
+    {
+      type: VisualizationType.CONSOLE,
+      label: "Contact Info",
+      data: {
+        logs: [
+          " Atharv Khare (1mystic)",
+          "🎓 IIT Madras BS Data Science",
+          "",
+          "🔗 Connect:",
+          "  GitHub: github.com/1mystic",
+          "  LinkedIn: linkedin.com/in/atharvkhare",
+          "  Twitter: @1mystic4u",
+          "  Email: atharvkhare18@gmail.com"
+        ]
+      }
+    },
+    "PyTaste is an open-source project created to make Python learning interactive and fun. Contributions and feedback are welcome!",
+    "Thank you for using PyTaste! Keep learning and building amazing things with Python. 🐍"
+  ),
+
 };
 
 // Fallback generator for topics not yet hardcoded
