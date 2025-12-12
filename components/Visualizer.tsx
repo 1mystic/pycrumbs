@@ -13,19 +13,19 @@ export const Visualizer: React.FC<VisualizerProps> = ({ data }) => {
   if (!data || data.type === VisualizationType.NONE) return null;
 
   if (data.type === VisualizationType.PLAYGROUND) {
-     // Render the playground without the default container wrapper to allow full width/styling
-     return (
-       <div className="my-10">
-         <div className="flex items-center gap-2 mb-3">
-           <div className="h-px flex-1 bg-gradient-to-r from-transparent to-sub/20"></div>
-           <span className="text-xs font-bold text-sub uppercase tracking-widest flex items-center gap-2">
-             <Cpu size={14} className="text-main" /> Interactive Playground
-           </span>
-           <div className="h-px flex-1 bg-gradient-to-l from-transparent to-sub/20"></div>
-         </div>
-         <CodePlayground initialCode={data.data.initialCode || ""} />
-       </div>
-     );
+    // Render the playground without the default container wrapper to allow full width/styling
+    return (
+      <div className="my-10">
+        <div className="flex items-center gap-2 mb-3">
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent to-sub/20"></div>
+          <span className="text-xs font-bold text-sub uppercase tracking-widest flex items-center gap-2">
+            <Cpu size={14} className="text-main" /> Interactive Playground
+          </span>
+          <div className="h-px flex-1 bg-gradient-to-l from-transparent to-sub/20"></div>
+        </div>
+        <CodePlayground initialCode={data.data.initialCode || ""} />
+      </div>
+    );
   }
 
   const renderContent = () => {
@@ -33,34 +33,34 @@ export const Visualizer: React.FC<VisualizerProps> = ({ data }) => {
       case VisualizationType.MEMORY_BOX:
         return (
           <div className="flex flex-wrap gap-6 justify-center w-full">
-             {data.data.variables?.map((v: any, i: number) => (
-               <div key={i} className="bg-bg border border-sub/10 rounded-lg p-4 shadow-xl min-w-[160px] transform hover:scale-105 transition-transform duration-300">
-                  <div className="flex justify-between items-center mb-2">
-                     <div className="text-[10px] text-sub font-mono bg-sub/10 px-1 rounded">{v.address || '0x???'}</div>
-                     <Box size={12} className="text-main" />
-                  </div>
-                  <div className="text-main font-bold text-lg mb-1 truncate" title={v.name}>{v.name}</div>
-                  <div className="h-px bg-sub/10 my-2"></div>
-                  <div className="text-text font-mono bg-bg_dark p-2 rounded text-center text-sm border border-sub/5 shadow-inner">
-                    {v.value}
-                  </div>
-               </div>
-             ))}
+            {data.data.variables?.map((v: any, i: number) => (
+              <div key={i} className="bg-[#1e2022] border border-sub/10 rounded-lg p-4 shadow-xl min-w-[160px] transform hover:scale-105 transition-transform duration-300">
+                <div className="flex justify-between items-center mb-2">
+                  <div className="text-[10px] text-sub font-mono bg-sub/10 px-1 rounded">{v.address || '0x???'}</div>
+                  <Box size={12} className="text-main" />
+                </div>
+                <div className="text-main font-bold text-lg mb-1 truncate" title={v.name}>{v.name}</div>
+                <div className="h-px bg-sub/10 my-2"></div>
+                <div className="text-text font-mono bg-bg_dark p-2 rounded text-center text-sm border border-sub/5 shadow-inner">
+                  {v.value}
+                </div>
+              </div>
+            ))}
           </div>
         );
-      
+
       case VisualizationType.LIST_ARRAY:
         return (
-          <div className="flex flex-col gap-4 items-center overflow-x-auto w-full pb-4">
-            <div className="flex gap-2">
+          <div className="flex flex-col gap-4 items-center w-full pb-4">
+            <div className="flex gap-2 overflow-x-auto w-full justify-center py-2 px-1">
               {data.data.items?.map((item: string, i: number) => (
-                <div key={i} className="flex flex-col items-center group relative">
-                   <div className="absolute -top-6 text-[10px] text-sub font-mono opacity-60 group-hover:opacity-100 transition-opacity">
-                     [{i}]
-                   </div>
-                   <div className="w-16 h-16 md:w-20 md:h-20 border-2 border-sub/20 flex items-center justify-center bg-bg_dark text-text font-mono text-lg md:text-xl rounded-lg hover:border-main hover:text-main hover:-translate-y-1 transition-all shadow-md">
-                      {item}
-                   </div>
+                <div key={i} className="flex flex-col items-center group relative shrink-0">
+                  <div className="absolute -top-6 text-[10px] text-sub font-mono opacity-60 group-hover:opacity-100 transition-opacity">
+                    [{i}]
+                  </div>
+                  <div className="min-w-[4rem] h-16 md:h-20 px-3 border-2 border-sub/20 flex items-center justify-center bg-[#1e2022] text-text font-mono text-sm md:text-lg rounded-lg hover:border-main hover:text-main hover:-translate-y-1 transition-all shadow-md whitespace-nowrap">
+                    {item}
+                  </div>
                 </div>
               ))}
             </div>
@@ -75,9 +75,9 @@ export const Visualizer: React.FC<VisualizerProps> = ({ data }) => {
               <React.Fragment key={i}>
                 <div className={`
                   p-4 rounded-lg border text-sm font-medium w-full text-center transition-all duration-500 relative
-                  ${i <= activeStep 
-                    ? 'border-main bg-main/10 text-main shadow-[0_0_20px_rgba(251,191,36,0.15)] scale-105 z-10' 
-                    : 'border-sub/20 text-sub bg-bg_dark opacity-60'
+                  ${i <= activeStep
+                    ? 'border-main bg-main/10 text-main shadow-[0_0_20px_rgba(251,191,36,0.15)] scale-105 z-10'
+                    : 'border-sub/20 text-sub bg-[#1e2022] opacity-60'
                   }
                 `}>
                   {step}
@@ -86,19 +86,19 @@ export const Visualizer: React.FC<VisualizerProps> = ({ data }) => {
                   )}
                 </div>
                 {i < (data.data.steps.length - 1) && (
-                   <ArrowRight className={`rotate-90 my-1 transition-colors ${i < activeStep ? 'text-main' : 'text-sub/20'}`} />
+                  <ArrowRight className={`rotate-90 my-1 transition-colors ${i < activeStep ? 'text-main' : 'text-sub/20'}`} />
                 )}
               </React.Fragment>
             ))}
             <div className="flex gap-2 mt-4">
-               <button 
+              <button
                 onClick={() => setActiveStep(prev => Math.min(prev + 1, (data.data.steps?.length || 1) - 1))}
                 disabled={activeStep === (data.data.steps?.length || 1) - 1}
                 className="flex items-center gap-2 px-5 py-2 bg-main text-bg_dark font-bold rounded-md hover:bg-white transition-colors disabled:opacity-50 disabled:hover:bg-main"
               >
                 <Play size={16} fill="currentColor" /> Next Step
               </button>
-              <button 
+              <button
                 onClick={() => setActiveStep(0)}
                 className="p-2 bg-sub/10 text-sub hover:text-text rounded-md transition-colors"
                 title="Reset"
@@ -128,8 +128,8 @@ export const Visualizer: React.FC<VisualizerProps> = ({ data }) => {
                 </div>
               ))}
               <div className="flex gap-3">
-                 <span className="text-main font-bold animate-pulse">{'>'}</span>
-                 <span className="typing-cursor"></span>
+                <span className="text-main font-bold animate-pulse">{'>'}</span>
+                <span className="typing-cursor"></span>
               </div>
             </div>
           </div>
