@@ -1,258 +1,231 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Play, RotateCcw, Terminal, Variable } from 'lucide-react';
+
+interface ExecutionStep {
+  line: number;
+  output?: string;
+  variables: Record<string, any>;
+  explanation?: string;
+}
+
+interface PlaygroundData {
+  initialCode: string;
+  steps: ExecutionStep[];
+}
 
 interface CodePlaygroundProps {
   initialCode: string;
+  steps?: ExecutionStep[];
 }
 
-declare const Prism: any;
+// Simple syntax highlighter for Python
+const SyntaxHighlight: React.FC<{ code: string; currentLine?: number }> = ({ code, currentLine }) => {
+  const lines = code.split('\n');
 
-export const CodePlayground: React.FC<CodePlaygroundProps> = ({ initialCode }) => {
-  const [code, setCode] = useState(initialCode);
-  const [output, setOutput] = useState<string[]>([]);
-  const [variables, setVariables] = useState<Record<string, any>>({});
-  const [stepIndex, setStepIndex] = useState<number>(-1);
-  const preRef = useRef<HTMLPreElement>(null);
+  const highlightLine = (line: string) => {
+    const parts: React.ReactNode[] = [];
+    let remaining = line;
+    let key = 0;
 
-  // Sync state when prop changes
-  useEffect(() => {
-    setCode(initialCode);
-    handleReset();
-  }, [initialCode]);
+    const tokens: Array<{ type: string; value: string; index: number }> = [];
 
-  // Sync Prism highlight
-  useEffect(() => {
-    if (preRef.current && typeof Prism !== 'undefined') {
-      // Small timeout to ensure DOM render before highlight
-      // Prism highlightElement wipes DOM if we aren't careful, but we are using text content now.
-      Prism.highlightElement(preRef.current.querySelector('code'));
-    }
-  }, [code]);
-
-  const executeLine = (line: string, currentVars: Record<string, any>, currentOutput: string[]) => {
-    const trimmed = line.trim();
-    if (!trimmed || trimmed.startsWith('#')) return { vars: currentVars, out: currentOutput };
-
-    const newVars = { ...currentVars };
-    const newOutput = [...currentOutput];
-
-    try {
-      // 0. Handle Function Definition (Start)
-      const defMatch = trimmed.match(/^def\s+([a-zA-Z_]\w*)\((.*)\):$/);
-      if (defMatch) {
-        return {
-          vars: { ...newVars, __definingFunction: { name: defMatch[1], args: defMatch[2].split(',').map(s => s.trim()).filter(Boolean), body: [] } },
-          out: newOutput
-        };
-      }
-
-      // 1. Handle Function Body Collection
-      if (newVars.__definingFunction) {
-        if (line.startsWith('  ') || line.startsWith('\t')) {
-          newVars.__definingFunction.body.push(line.trim());
-          return { vars: newVars, out: newOutput };
-        } else {
-          // End of function definition
-          const funcName = newVars.__definingFunction.name;
-          newVars[funcName] = { ...newVars.__definingFunction, type: 'function' };
-          delete newVars.__definingFunction;
-          // Fallthrough to execute current line
-        }
-      }
-
-      // Assignments
-      const assignMatch = trimmed.match(/^([a-zA-Z_]\w*)\s*=\s*(.+)$/);
-      if (assignMatch) {
-        const varName = assignMatch[1];
-        const rawValue = assignMatch[2];
-        let val: any = rawValue;
-
-        if ((rawValue.startsWith('"') && rawValue.endsWith('"')) || (rawValue.startsWith("'") && rawValue.endsWith("'"))) {
-          val = rawValue.slice(1, -1);
-        } else if (!isNaN(Number(rawValue))) {
-          val = Number(rawValue);
-        } else if (rawValue === 'True') val = true;
-        else if (rawValue === 'False') val = false;
-        else if (rawValue.startsWith('[') && rawValue.endsWith(']')) {
-          try { val = JSON.parse(rawValue.replace(/'/g, '"')); } catch (e) { val = rawValue; }
-        }
-        else if (newVars[rawValue] !== undefined) {
-          val = newVars[rawValue];
-        }
-
-        const listMethod = rawValue.match(/^([a-zA-Z_]\w*)\.append\((.+)\)$/);
-        if (listMethod) {
-          const listName = listMethod[1];
-          const item = listMethod[2].replace(/['"]/g, '');
-          if (Array.isArray(newVars[listName])) {
-            const arr = [...newVars[listName]];
-            arr.push(item);
-            newVars[listName] = arr;
-            return { vars: newVars, out: newOutput };
-          }
-        }
-        const listPop = rawValue.match(/^([a-zA-Z_]\w*)\.pop\((.*)\)$/);
-        if (listPop) {
-          const listName = listPop[1];
-          if (Array.isArray(newVars[listName])) {
-            const arr = [...newVars[listName]];
-            const popped = arr.pop();
-            newVars[listName] = arr;
-            val = popped;
-            // assignment captures popped value
-          }
-        }
-
-        newVars[varName] = val;
-      }
-
-      // Print
-      const printMatch = trimmed.match(/^print\((.+)\)$/);
-      if (printMatch) {
-        const content = printMatch[1].trim();
-        if ((content.startsWith('"') && content.endsWith('"')) || (content.startsWith("'") && content.endsWith("'"))) {
-          newOutput.push(content.slice(1, -1));
-        } else if (newVars[content] !== undefined) {
-          // Basic formatting for list vs primitive
-          const v = newVars[content];
-          if (v && v.type === 'function') newOutput.push(`<function ${content}>`);
-          else newOutput.push(typeof v === 'object' ? JSON.stringify(v).replace(/"/g, "'") : String(v));
-        } else if (!isNaN(Number(content))) {
-          newOutput.push(content);
-        } else {
-          if (content.includes('+')) {
-            const parts = content.split('+').map(p => p.trim());
-            const result = parts.reduce((acc, part) => {
-              if ((part.startsWith('"') && part.endsWith('"')) || (part.startsWith("'") && part.endsWith("'"))) {
-                return acc + part.slice(1, -1);
-              } else if (newVars[part] !== undefined) return acc + String(newVars[part]);
-              return acc;
-            }, "");
-            newOutput.push(result);
-          }
-          else throw new Error(`NameError: '${content}' not defined`);
-        }
-      }
-
-      // Function Call (Custom)
-      const funcCallMatch = trimmed.match(/^([a-zA-Z_]\w*)\((.*)\)$/);
-      if (funcCallMatch && !assignMatch && !printMatch) {
-        const funcName = funcCallMatch[1];
-        const args = funcCallMatch[2].split(',').map(s => s.trim()).filter(Boolean);
-
-        if (newVars[funcName] && newVars[funcName].type === 'function') {
-          const funcDef = newVars[funcName];
-
-          // 1. Map args to local vars
-          funcDef.args.forEach((argName: string, idx: number) => {
-            let val = args[idx];
-            if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
-              val = val.slice(1, -1);
-            } else if (!isNaN(Number(val))) val = Number(val);
-
-            newVars[argName] = val;
-          });
-
-          // 2. Execute Body
-          let tempVars = { ...newVars };
-          let tempOut = [...newOutput];
-
-          // We must process lines sequentially, handling potential recursive calls (basic)
-          // This does NOT handle complex indentation nesting inside the function yet
-          funcDef.body.forEach((bodyLine: string) => {
-            const res = executeLine(bodyLine, tempVars, tempOut);
-            tempVars = res.vars;
-            tempOut = res.out;
-          });
-
-          return { vars: newVars, out: tempOut };
-        }
-      }
-
-      // Simple Method Calls (void return)
-      const methodMatch = trimmed.match(/^([a-zA-Z_]\w*)\.([a-zA-Z_]\w*)\((.*)\)$/);
-      if (methodMatch && !assignMatch && !printMatch && !funcCallMatch) {
-        const varName = methodMatch[1];
-        const method = methodMatch[2];
-        const args = methodMatch[3];
-
-        if (newVars[varName] && Array.isArray(newVars[varName])) {
-          if (method === 'append') {
-            const val = args.replace(/['"]/g, '');
-            newVars[varName] = [...newVars[varName], val];
-          }
-          else if (method === 'pop') {
-            const arr = [...newVars[varName]];
-            arr.pop();
-            newVars[varName] = arr;
-          }
-          else if (method === 'sort') {
-            const arr = [...newVars[varName]];
-            arr.sort();
-            newVars[varName] = arr;
-          }
-          else if (method === 'remove') {
-            const val = args.replace(/['"]/g, '');
-            const arr = [...newVars[varName]];
-            const idx = arr.indexOf(val);
-            if (idx > -1) arr.splice(idx, 1);
-            newVars[varName] = arr;
-          }
-        }
-      }
-
-    } catch (e: any) {
-      newOutput.push(e.message);
-    }
-    return { vars: newVars, out: newOutput };
-  };
-
-  const codeLines = code.split('\n');
-
-  const handleStep = () => {
-    let nextIndex = stepIndex + 1;
-    while (nextIndex < codeLines.length) {
-      const line = codeLines[nextIndex].trim();
-      // Don't skip indented lines if we are inside a definition!
-      // But our naive loop skips comments/empty lines
-      if (line && !line.startsWith('#')) break;
-      nextIndex++;
+    // Find comments
+    const commentMatch = remaining.match(/#.*/);
+    if (commentMatch) {
+      tokens.push({ type: 'comment', value: commentMatch[0], index: commentMatch.index! });
     }
 
-    if (nextIndex >= codeLines.length) return;
+    // Find strings
+    const stringRegex = /(['"])(?:(?=(\\?))\2.)*?\1/g;
+    let match;
+    while ((match = stringRegex.exec(remaining)) !== null) {
+      tokens.push({ type: 'string', value: match[0], index: match.index });
+    }
 
-    setStepIndex(nextIndex);
-    const { vars, out } = executeLine(codeLines[nextIndex], variables, output);
-    setVariables(vars);
-    setOutput(out);
-  };
+    // Find keywords
+    const keywordRegex = /\b(def|class|if|elif|else|for|while|in|return|import|from|as|try|except|finally|with|pass|break|continue|True|False|None|and|or|not|is|lambda|yield|async|await|print|range)\b/g;
+    while ((match = keywordRegex.exec(remaining)) !== null) {
+      tokens.push({ type: 'keyword', value: match[0], index: match.index });
+    }
 
-  const runCode = () => {
-    handleReset();
-    let currentVars = {};
-    let currentOut: string[] = [];
+    // Find numbers
+    const numberRegex = /\b\d+\.?\d*\b/g;
+    while ((match = numberRegex.exec(remaining)) !== null) {
+      tokens.push({ type: 'number', value: match[0], index: match.index });
+    }
 
-    codeLines.forEach((line) => {
-      const res = executeLine(line, currentVars, currentOut);
-      currentVars = res.vars;
-      currentOut = res.out;
+    tokens.sort((a, b) => a.index - b.index);
+
+    let lastIndex = 0;
+    tokens.forEach((token) => {
+      if (token.index > lastIndex) {
+        parts.push(<span key={key++}>{remaining.substring(lastIndex, token.index)}</span>);
+      }
+
+      const className =
+        token.type === 'comment' ? 'text-gray-500' :
+          token.type === 'string' ? 'text-green-400' :
+            token.type === 'keyword' ? 'text-purple-400' :
+              token.type === 'number' ? 'text-blue-400' : '';
+
+      parts.push(<span key={key++} className={className}>{token.value}</span>);
+      lastIndex = token.index + token.value.length;
     });
 
-    setVariables(currentVars);
-    setOutput(currentOut);
-    setStepIndex(codeLines.length);
-  };
+    if (lastIndex < remaining.length) {
+      parts.push(<span key={key++}>{remaining.substring(lastIndex)}</span>);
+    }
 
-  const handleReset = () => {
-    setCode(initialCode);
-    setOutput([]);
-    setVariables({});
-    setStepIndex(-1);
+    return parts.length > 0 ? parts : <span>{line || '\u00A0'}</span>;
   };
 
   return (
-    <div className="w-full flex flex-col md:flex-row gap-0 rounded-xl overflow-hidden border border-sub/20 shadow-2xl bg-[#1e2022]">
+    <>
+      {lines.map((line, lineIndex) => {
+        const lineNumber = lineIndex + 1;
+        const isActive = currentLine === lineNumber;
 
+        return (
+          <div
+            key={lineIndex}
+            className={`px-2 py-0.5 rounded transition-colors ${isActive ? 'bg-yellow-500/20' : ''}`}
+          >
+            <span className="text-sub/50 mr-3 select-none inline-block w-6 text-right">{lineNumber}</span>
+            {highlightLine(line)}
+          </div>
+        );
+      })}
+    </>
+  );
+};
+
+// Pre-defined execution steps for each playground type
+const getDefaultSteps = (code: string): ExecutionStep[] => {
+  // Default steps based on common patterns
+  const lines = code.split('\n');
+  const steps: ExecutionStep[] = [];
+  let vars: Record<string, any> = {};
+
+  lines.forEach((line, idx) => {
+    const lineNum = idx + 1;
+    const trimmed = line.trim();
+
+    if (!trimmed || trimmed.startsWith('#')) return;
+
+    // Simple variable assignment
+    const assignMatch = trimmed.match(/^([a-zA-Z_]\w*)\s*=\s*(.+)$/);
+    if (assignMatch) {
+      const varName = assignMatch[1];
+      let value: any = assignMatch[2].trim();
+
+      // Parse value
+      if (value.startsWith("'") || value.startsWith('"')) {
+        value = value.slice(1, -1);
+      } else if (value.startsWith('[')) {
+        try { value = JSON.parse(value.replace(/'/g, '"')); } catch { value = []; }
+      } else if (!isNaN(Number(value))) {
+        value = Number(value);
+      } else if (value === 'True') {
+        value = true;
+      } else if (value === 'False') {
+        value = false;
+      }
+
+      vars[varName] = value;
+      steps.push({ line: lineNum, variables: { ...vars } });
+      return;
+    }
+
+    // Print statement
+    const printMatch = trimmed.match(/^print\((.+)\)$/);
+    if (printMatch) {
+      let content = printMatch[1].trim();
+      let output = content;
+
+      if (content.startsWith("'") || content.startsWith('"')) {
+        output = content.slice(1, -1);
+      } else if (vars[content] !== undefined) {
+        output = String(vars[content]);
+      }
+
+      steps.push({ line: lineNum, output, variables: { ...vars } });
+      return;
+    }
+
+    // For loop - simplified handling
+    if (trimmed.startsWith('for ')) {
+      steps.push({ line: lineNum, variables: { ...vars } });
+    }
+  });
+
+  return steps;
+};
+
+export const CodePlayground: React.FC<CodePlaygroundProps> = ({ initialCode, steps: providedSteps }) => {
+  const [output, setOutput] = useState<string[]>([]);
+  const [variables, setVariables] = useState<Record<string, any>>({});
+  const [currentStep, setCurrentStep] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
+
+  // Use the provided code directly (not stored in state to avoid stale data)
+  const code = initialCode;
+  const executionSteps = providedSteps || getDefaultSteps(code);
+
+  // Reset all state when initialCode or steps change (navigating to new topic)
+  useEffect(() => {
+    setOutput([]);
+    setVariables({});
+    setCurrentStep(0);
+    setIsRunning(false);
+  }, [initialCode, providedSteps]);
+
+  const runStep = () => {
+    if (currentStep < executionSteps.length) {
+      setIsRunning(true);
+      const step = executionSteps[currentStep];
+
+      if (step.output) {
+        setOutput(prev => [...prev, step.output!]);
+      }
+      setVariables(step.variables);
+      setCurrentStep(prev => prev + 1);
+
+      setTimeout(() => setIsRunning(false), 300);
+    }
+  };
+
+  const runAll = () => {
+    handleReset();
+    setIsRunning(true);
+
+    executionSteps.forEach((step, i) => {
+      setTimeout(() => {
+        if (step.output) {
+          setOutput(prev => [...prev, step.output!]);
+        }
+        setVariables(step.variables);
+        setCurrentStep(i + 1);
+
+        if (i === executionSteps.length - 1) {
+          setIsRunning(false);
+        }
+      }, (i + 1) * 300);
+    });
+  };
+
+  const handleReset = () => {
+    setOutput([]);
+    setVariables({});
+    setCurrentStep(0);
+    setIsRunning(false);
+  };
+
+  const currentLine = currentStep > 0 && currentStep <= executionSteps.length
+    ? executionSteps[currentStep - 1].line
+    : undefined;
+
+  return (
+    <div className="w-full flex flex-col md:flex-row gap-0 rounded-xl overflow-hidden border border-sub/20 shadow-2xl bg-[#1e2022]">
       {/* LEFT: Code Editor */}
       <div className="flex-1 flex flex-col min-h-[300px] border-b md:border-b-0 md:border-r border-sub/10">
         <div className="flex items-center justify-between px-4 py-2 bg-[#252629] border-b border-sub/10">
@@ -260,75 +233,42 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({ initialCode }) =
             <span className="w-2 h-2 rounded-full bg-yellow-500"></span>
             main.py
           </div>
-          <div className="flex gap-2">
-            <button onClick={handleReset} className="p-1 hover:text-main text-sub transition-colors" title="Reset Code">
-              <RotateCcw size={14} />
-            </button>
-          </div>
+          <button onClick={handleReset} className="p-1 hover:text-main text-sub transition-colors" title="Reset">
+            <RotateCcw size={14} />
+          </button>
         </div>
-
-        {/* Editor Container - Scrollable */}
-        <div className="relative flex-1 bg-[#1e2022] overflow-auto group">
-          {/* Wrapper to hold aligned layers */}
-          <div className="relative min-h-full min-w-full inline-block">
-
-            {/* Layer 1: Highlights */}
-            <div className="absolute inset-0 z-0 pt-4 pointer-events-none font-mono text-sm leading-relaxed" aria-hidden="true">
-              {codeLines.map((_, i) => (
-                <div key={i} className={`w-full px-4 ${stepIndex === i ? 'bg-yellow-500/20' : ''}`}>
-                  {/* Invisible char to force line height if empty, although loop goes by index */}
-                  &nbsp;
-                </div>
-              ))}
-            </div>
-
-            {/* Layer 2: Prism Code */}
-            {/* Note: overflow-visible allowed here because parent handles scroll */}
-            <pre ref={preRef} className="relative z-10 p-4 m-0 font-mono text-sm leading-relaxed pointer-events-none bg-transparent overflow-visible">
-              <code className="language-python">{code}</code>
-            </pre>
-
-            {/* Layer 3: Textarea Input */}
-            <textarea
-              value={code}
-              onChange={(e) => { setCode(e.target.value); setStepIndex(-1); }}
-              className="absolute inset-0 w-full h-full p-4 font-mono text-sm leading-relaxed bg-transparent text-transparent caret-main resize-none focus:outline-none z-20 selection:bg-main/20 selection:text-transparent overflow-hidden whitespace-pre"
-              spellCheck="false"
-              autoCapitalize="off"
-              autoComplete="off"
-            />
-          </div>
+        <div className="flex-1 p-4 bg-[#1e2022] overflow-auto font-mono text-sm leading-relaxed">
+          <SyntaxHighlight code={code} currentLine={currentLine} />
         </div>
       </div>
 
       {/* RIGHT: Output & Variables */}
       <div className="flex-1 flex flex-col bg-[#161819] min-h-[300px]">
-        {/* Toolbar */}
         <div className="flex items-center justify-between px-4 py-2 bg-[#1a1c1e] border-b border-sub/10">
           <span className="text-xs font-bold text-sub uppercase tracking-wider flex items-center gap-2">
             <Terminal size={12} /> Console
           </span>
           <div className="flex gap-2">
             <button
-              onClick={handleStep}
-              disabled={stepIndex >= codeLines.length - 1}
-              className="flex items-center gap-2 px-3 py-1 bg-sub/10 text-main border border-main/20 text-xs font-bold rounded hover:bg-main/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              onClick={runStep}
+              disabled={currentStep >= executionSteps.length || isRunning}
+              className="flex items-center gap-2 px-3 py-1 bg-sub/10 text-main border border-main/20 text-xs font-bold rounded hover:bg-main/20 transition-colors disabled:opacity-50"
             >
               <div className="w-2 h-2 rounded-full bg-main"></div> Step
             </button>
             <button
-              onClick={runCode}
-              className="flex items-center gap-2 px-3 py-1 bg-main text-bg_dark text-xs font-bold rounded hover:bg-white transition-colors"
+              onClick={runAll}
+              disabled={isRunning}
+              className="flex items-center gap-2 px-3 py-1 bg-main text-bg_dark text-xs font-bold rounded hover:bg-white transition-colors disabled:opacity-50"
             >
               <Play size={12} fill="currentColor" /> Run
             </button>
           </div>
         </div>
 
-        {/* Console Output */}
         <div className="flex-1 p-4 font-mono text-sm border-b border-sub/10 overflow-y-auto max-h-[200px]">
           {output.length === 0 ? (
-            <div className="text-sub/30 italic">Click run to see output...</div>
+            <div className="text-sub/30 italic">Click Run to execute...</div>
           ) : (
             output.map((line, i) => (
               <div key={i} className="flex gap-2 text-green-400 mb-1">
@@ -339,16 +279,15 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({ initialCode }) =
           )}
         </div>
 
-        {/* Variable Explorer */}
         <div className="h-[150px] bg-[#1a1c1e] flex flex-col">
           <div className="px-4 py-1.5 bg-[#252629] border-y border-sub/10 text-[10px] font-bold text-sub uppercase tracking-wider flex items-center gap-2">
-            <Variable size={10} /> Variable Explorer
+            <Variable size={10} /> Variables
           </div>
           <div className="flex-1 overflow-y-auto p-2">
             {Object.keys(variables).length === 0 ? (
-              <div className="text-sub/20 text-xs text-center mt-4">No variables in memory</div>
+              <div className="text-sub/20 text-xs text-center mt-4">No variables</div>
             ) : (
-              <table className="w-full text-xs font-mono text-left border-collapse">
+              <table className="w-full text-xs font-mono text-left">
                 <thead>
                   <tr className="text-sub/50 border-b border-sub/10">
                     <th className="py-1 pl-2 font-normal">Name</th>
@@ -360,8 +299,8 @@ export const CodePlayground: React.FC<CodePlaygroundProps> = ({ initialCode }) =
                   {Object.entries(variables).map(([key, val]) => (
                     <tr key={key} className="border-b border-sub/5 text-sub">
                       <td className="py-1.5 pl-2 text-main">{key}</td>
-                      <td className="py-1.5 text-text">{String(JSON.stringify(val))}</td>
-                      <td className="py-1.5 opacity-50">{Array.isArray(val) ? 'list' : (val && val.type === 'function' ? 'function' : typeof val)}</td>
+                      <td className="py-1.5 text-text">{JSON.stringify(val)}</td>
+                      <td className="py-1.5 opacity-50">{Array.isArray(val) ? 'list' : typeof val}</td>
                     </tr>
                   ))}
                 </tbody>

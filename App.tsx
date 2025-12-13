@@ -55,10 +55,33 @@ const App: React.FC = () => {
         `}
       >
         <div className="p-6 border-b border-sub/10 flex items-center gap-3 bg-bg_dark">
-          <div className="p-2 bg-main/10 rounded-md">
-            <Terminal className="text-main w-6 h-6" />
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 100 100"
+              className="w-10 h-10"
+            >
+              <rect width="110" height="110" rx="20" fill="#1e2022" />
+              <path
+                d="M35 30h30a10 10 0 0 1 10 10v20a10 10 0 0 1-10 10H35a10 10 0 0 1-10-10V40a10 10 0 0 1 10-10z"
+                fill="none"
+                stroke="#fbbf24"
+                strokeWidth="8"
+              />
+              <text
+                x="50"
+                y="62"
+                fontFamily="monospace"
+                fontSize="40"
+                fontWeight="bold"
+                fill="#fbbf24"
+                textAnchor="middle"
+              >
+                py
+              </text>
+            </svg>
           </div>
-          <h1 className="text-xl font-bold tracking-tighter text-main">pytaste</h1>
+          <h1 className="text-xl font-bold tracking-tighter text-main">PyCrumbs</h1>
         </div>
         <div className="flex-1 overflow-y-auto p-4 scrollbar-thin">
           <Sidebar 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { InteractiveData, VisualizationType } from '../types';
 import { ArrowRight, Box, Cpu, List as ListIcon, Play, Terminal, RotateCcw } from 'lucide-react';
 import { CodePlayground } from './CodePlayground';
@@ -10,6 +10,10 @@ interface VisualizerProps {
 export const Visualizer: React.FC<VisualizerProps> = ({ data }) => {
   const [activeStep, setActiveStep] = useState(0);
 
+  // Reset activeStep when data changes (navigating to new topic)
+  useEffect(() => {
+    setActiveStep(0);
+  }, [data]);
   if (!data || data.type === VisualizationType.NONE) return null;
 
   if (data.type === VisualizationType.PLAYGROUND) {
@@ -23,7 +27,7 @@ export const Visualizer: React.FC<VisualizerProps> = ({ data }) => {
           </span>
           <div className="h-px flex-1 bg-gradient-to-l from-transparent to-sub/20"></div>
         </div>
-        <CodePlayground initialCode={data.data.initialCode || ""} />
+        <CodePlayground initialCode={data.data.initialCode || ""} steps={data.data.steps} />
       </div>
     );
   }

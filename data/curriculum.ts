@@ -22,6 +22,46 @@ const createContent = (
 
 export const CURRICULUM_DATA: Record<string, TutorialContent> = {
   // --- MODULE 1: INTRODUCTION ---
+  "Introduction": createContent(
+    "Introduction to Python",
+    "Beginner",
+    "Python is a high-level, interpreted programming language created by Guido van Rossum in 1991. Known for its simplicity and readability, Python has become one of the most popular programming languages in the world.",
+    [
+      {
+        heading: "What is Python?",
+        content: "Python is a versatile, general-purpose programming language that emphasizes code readability and simplicity. It uses indentation to define code blocks, making it easy to read and write.",
+        codeBlock: { language: "python", code: "# Python's simple syntax\nprint('Hello, World!')\n\n# Variables are easy\nname = 'Python'\nversion = 3.12\n\nprint(f'{name} {version}')", output: "Hello, World!\nPython 3.12" }
+      },
+      {
+        heading: "Why Python?",
+        content: "Python offers numerous advantages: **Easy to Learn** - Simple, English-like syntax perfect for beginners. **Versatile** - Used in web development, data science, AI, automation, and more. **Large Community** - Extensive libraries and frameworks available. **Cross-Platform** - Runs on Windows, Mac, Linux, and more.",
+        codeBlock: { language: "python", code: "# Python makes complex tasks simple\nimport this  # The Zen of Python\n\n# List comprehension example\nsquares = [x**2 for x in range(5)]\nprint(squares)", output: "[0, 1, 4, 9, 16]" }
+      },
+      {
+        heading: "Python Features",
+        content: "**Interpreted Language** - No compilation needed, code runs directly. **Dynamically Typed** - No need to declare variable types. **Object-Oriented** - Supports OOP principles. **Extensive Standard Library** - Batteries included philosophy. **Open Source** - Free to use and distribute.",
+        codeBlock: { language: "python", code: "# Dynamic typing\nx = 10        # Integer\nx = 'Hello'   # Now a string\nx = [1, 2, 3] # Now a list\n\nprint(type(x))\nprint(x)", output: "<class 'list'>\n[1, 2, 3]" }
+      },
+      {
+        heading: "Python Applications",
+        content: "Python is used across many domains: **Web Development** (Django, Flask), **Data Science** (Pandas, NumPy), **Machine Learning** (TensorFlow, PyTorch), **Automation** (Scripts, DevOps), **Game Development** (Pygame), **Desktop Applications** (Tkinter, PyQt).",
+        codeBlock: { language: "python", code: "# Example: Simple data analysis\ndata = [10, 20, 30, 40, 50]\n\naverage = sum(data) / len(data)\nmaximum = max(data)\nminimum = min(data)\n\nprint(f'Average: {average}')\nprint(f'Max: {maximum}, Min: {minimum}')", output: "Average: 30.0\nMax: 50, Min: 10" }
+      },
+      {
+        heading: "Getting Started",
+        content: "To start with Python: 1. Install Python from python.org. 2. Choose an IDE (VS Code, PyCharm, or IDLE). 3. Write your first program. 4. Explore the vast ecosystem of libraries.",
+        codeBlock: { language: "python", code: "# Your Python journey starts here!\nprint('Welcome to Python!')\nprint('Let\\'s learn together!')\n\n# Check Python version\nimport sys\nprint(f'Python {sys.version_info.major}.{sys.version_info.minor}')", output: "Welcome to Python!\nLet's learn together!\nPython 3.12" }
+      }
+    ],
+    {
+      type: VisualizationType.CONSOLE,
+      label: "Python REPL",
+      data: { logs: [">>> print('Hello, Python!')", "Hello, Python!", ">>> 2 + 2", "4", ">>> 'Python' * 3", "'PythonPythonPython'", ">>>"] }
+    },
+    "Python powers websites like Instagram and Spotify, is used by NASA for data analysis, and drives AI breakthroughs at companies like Google and OpenAI.",
+    "Python is beginner-friendly yet powerful enough for professional development. Its simplicity and versatility make it the perfect first programming language."
+  ),
+
   "How to Get Started With Python?": createContent(
     "How to Get Started With Python?",
     "Beginner",
@@ -71,7 +111,13 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
     {
       type: VisualizationType.PLAYGROUND,
       label: "Run your code",
-      data: { initialCode: "# Try changing the message below\nprint('Hello, World!')\nprint('Python is awesome')" }
+      data: {
+        initialCode: "print('Hello, World!')\nprint('Python is awesome')",
+        steps: [
+          { line: 1, output: "Hello, World!", variables: {} },
+          { line: 2, output: "Python is awesome", variables: {} }
+        ]
+      }
     },
     "This simple script is the basis for all logging and output generation in complex backend systems.",
     "Use `print()` to output text to the console."
@@ -152,7 +198,15 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
       type: VisualizationType.PLAYGROUND,
       label: "Variable Explorer",
       data: {
-        initialCode: "name = \"Python\"\nage = 30\nprice = 19.99\n\nprint(name)\nprint(age)\nprint(price)"
+        initialCode: "name = 'Python'\nage = 30\nprice = 19.99\nprint(name)\nprint(age)\nprint(price)",
+        steps: [
+          { line: 1, variables: { name: "Python" } },
+          { line: 2, variables: { name: "Python", age: 30 } },
+          { line: 3, variables: { name: "Python", age: 30, price: 19.99 } },
+          { line: 4, output: "Python", variables: { name: "Python", age: 30, price: 19.99 } },
+          { line: 5, output: "30", variables: { name: "Python", age: 30, price: 19.99 } },
+          { line: 6, output: "19.99", variables: { name: "Python", age: 30, price: 19.99 } }
+        ]
       }
     },
     "Variables are used everywhere, from storing user session IDs in web apps to calculating physics in games.",
@@ -304,7 +358,14 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
     {
       type: VisualizationType.PLAYGROUND,
       label: "Try it yourself",
-      data: { initialCode: "x = 20\n\nif x > 10:\n  print('x is big')\nelse:\n  print('x is small')" }
+      data: {
+        initialCode: "x = 20\nif x > 10:\n  print('x is big')\nelse:\n  print('x is small')",
+        steps: [
+          { line: 1, variables: { x: 20 } },
+          { line: 2, variables: { x: 20 } },
+          { line: 3, output: "x is big", variables: { x: 20 } }
+        ]
+      }
     },
     "Authentication systems check `if password_valid:` to grant access.",
     "Indentation is mandatory in Python."
@@ -344,7 +405,18 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
     {
       type: VisualizationType.PLAYGROUND,
       label: "Loop Experiment",
-      data: { initialCode: "fruits = ['apple', 'banana', 'cherry']\n\nfor x in fruits:\n  print(x)\n\n# Try adding a new fruit above!" }
+      data: {
+        initialCode: "fruits = ['apple', 'banana', 'cherry']\nfor x in fruits:\n  print(x)",
+        steps: [
+          { line: 1, variables: { fruits: ["apple", "banana", "cherry"] } },
+          { line: 2, variables: { fruits: ["apple", "banana", "cherry"], x: "apple" } },
+          { line: 3, output: "apple", variables: { fruits: ["apple", "banana", "cherry"], x: "apple" } },
+          { line: 2, variables: { fruits: ["apple", "banana", "cherry"], x: "banana" } },
+          { line: 3, output: "banana", variables: { fruits: ["apple", "banana", "cherry"], x: "banana" } },
+          { line: 2, variables: { fruits: ["apple", "banana", "cherry"], x: "cherry" } },
+          { line: 3, output: "cherry", variables: { fruits: ["apple", "banana", "cherry"], x: "cherry" } }
+        ]
+      }
     },
     "Data processing pipelines iterate over rows of data to transform them.",
     "For loops are best when the number of iterations is known."
@@ -384,13 +456,291 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
     {
       type: VisualizationType.PLAYGROUND,
       label: "While Loop",
-      data: { initialCode: "i = 1\nwhile i < 6:\n  print(i)\n  i += 1" }
+      data: {
+        initialCode: "i = 1\nwhile i <= 5:\n  print(i)\n  i += 1",
+        steps: [
+          { line: 1, variables: { i: 1 } },
+          { line: 2, variables: { i: 1 } },
+          { line: 3, output: "1", variables: { i: 1 } },
+          { line: 4, variables: { i: 2 } },
+          { line: 2, variables: { i: 2 } },
+          { line: 3, output: "2", variables: { i: 2 } },
+          { line: 4, variables: { i: 3 } },
+          { line: 2, variables: { i: 3 } },
+          { line: 3, output: "3", variables: { i: 3 } },
+          { line: 4, variables: { i: 4 } },
+          { line: 2, variables: { i: 4 } },
+          { line: 3, output: "4", variables: { i: 4 } },
+          { line: 4, variables: { i: 5 } },
+          { line: 2, variables: { i: 5 } },
+          { line: 3, output: "5", variables: { i: 5 } },
+          { line: 4, variables: { i: 6 } }
+        ]
+      }
     },
     "Game loops run strictly on `while True:` until the user quits.",
     "Beware of infinite loops; ensure the condition eventually becomes false."
   ),
 
+  "Python break and continue": createContent(
+    "Python break and continue",
+    "Beginner",
+    "The `break` and `continue` statements provide fine-grained control over loop execution. `break` exits the loop entirely, while `continue` skips to the next iteration.",
+    [
+      {
+        heading: "The break Statement",
+        content: "`break` immediately terminates the loop and transfers control to the statement following the loop.",
+        codeBlock: { language: "python", code: "# Search for a number\nfor num in [1, 3, 5, 7, 9, 2, 4]:\n  print(f'Checking {num}')\n  if num % 2 == 0:\n    print(f'Found even number: {num}')\n    break\nprint('Loop ended')", output: "Checking 1\nChecking 3\nChecking 5\nChecking 7\nChecking 9\nChecking 2\nFound even number: 2\nLoop ended" }
+      },
+      {
+        heading: "The continue Statement",
+        content: "`continue` skips the rest of the current iteration and moves to the next iteration of the loop.",
+        codeBlock: { language: "python", code: "# Print only odd numbers\nfor num in range(10):\n  if num % 2 == 0:\n    continue  # Skip even numbers\n  print(num)", output: "1\n3\n5\n7\n9" }
+      },
+      {
+        heading: "break vs continue",
+        content: "`break` exits the loop completely. `continue` skips to the next iteration. Understanding the difference is crucial for loop control.",
+        codeBlock: { language: "python", code: "# Demonstrate difference\nprint('With break:')\nfor i in range(5):\n  if i == 3:\n    break\n  print(i)\n\nprint('\\nWith continue:')\nfor i in range(5):\n  if i == 3:\n    continue\n  print(i)", output: "With break:\n0\n1\n2\n\nWith continue:\n0\n1\n2\n4" }
+      },
+      {
+        heading: "Nested Loops",
+        content: "`break` only exits the innermost loop. To exit multiple levels, use flags or functions.",
+        codeBlock: { language: "python", code: "# break in nested loops\nfor i in range(3):\n  for j in range(3):\n    if j == 2:\n      break  # Only breaks inner loop\n    print(f'i={i}, j={j}')\n  print(f'Outer loop: i={i}')", output: "i=0, j=0\ni=0, j=1\nOuter loop: i=0\ni=1, j=0\ni=1, j=1\nOuter loop: i=1\ni=2, j=0\ni=2, j=1\nOuter loop: i=2" }
+      },
+      {
+        heading: "Practical Examples",
+        content: "Common use cases: searching, input validation, early termination, filtering data.",
+        codeBlock: { language: "python", code: "# Input validation with break\nattempts = 0\nmax_attempts = 3\n\nwhile attempts < max_attempts:\n  password = 'secret'  # Simulated input\n  \n  if password == 'secret':\n    print('Access granted!')\n    break\n  \n  attempts += 1\n  print(f'Wrong password. {max_attempts - attempts} attempts left')\nelse:\n  print('Too many failed attempts')", output: "Access granted!" }
+      },
+      {
+        heading: "Loop-else with break",
+        content: "The `else` clause of a loop executes only if the loop completes normally (not via `break`).",
+        codeBlock: { language: "python", code: "# Search with else\nnumbers = [1, 3, 5, 7, 9]\nsearch = 4\n\nfor num in numbers:\n  if num == search:\n    print(f'Found {search}')\n    break\nelse:\n  print(f'{search} not found')\n\n# Another example\nfor num in numbers:\n  if num == 5:\n    print(f'Found {num}')\n    break\nelse:\n  print('Not found')", output: "4 not found\nFound 5" }
+      }
+    ],
+    {
+      type: VisualizationType.PLAYGROUND,
+      label: "Loop Control Demo",
+      data: {
+        initialCode: "for i in range(5):\n  if i == 3:\n    break\n  print(i)\nprint('Done!')",
+        steps: [
+          { line: 1, variables: { i: 0 } },
+          { line: 2, variables: { i: 0 } },
+          { line: 4, output: "0", variables: { i: 0 } },
+          { line: 1, variables: { i: 1 } },
+          { line: 2, variables: { i: 1 } },
+          { line: 4, output: "1", variables: { i: 1 } },
+          { line: 1, variables: { i: 2 } },
+          { line: 2, variables: { i: 2 } },
+          { line: 4, output: "2", variables: { i: 2 } },
+          { line: 1, variables: { i: 3 } },
+          { line: 2, variables: { i: 3 } },
+          { line: 3, variables: { i: 3 } },
+          { line: 5, output: "Done!", variables: { i: 3 } }
+        ]
+      }
+    },
+    "Search algorithms use `break` to stop when the target is found. Data processing pipelines use `continue` to skip invalid records.",
+    "Use `break` to exit early when a condition is met. Use `continue` to skip unwanted iterations. Both improve code efficiency."
+  ),
+
+  "Python pass Statement": createContent(
+    "Python pass Statement",
+    "Beginner",
+    "The `pass` statement is a null operation — when executed, nothing happens. It's used as a placeholder where syntactically required but no action is needed.",
+    [
+      {
+        heading: "What is pass?",
+        content: "`pass` is a placeholder that does nothing. It's used when a statement is syntactically required but you don't want to execute any code.",
+        codeBlock: { language: "python", code: "# Empty function (would cause error without pass)\ndef my_function():\n  pass  # TODO: implement later\n\nmy_function()  # Runs without error\nprint('Function called')", output: "Function called" }
+      },
+      {
+        heading: "pass in Conditional Statements",
+        content: "Use `pass` when you want to handle a condition but take no action.",
+        codeBlock: { language: "python", code: "x = 10\n\nif x > 5:\n  pass  # Do nothing for now\nelif x < 0:\n  print('Negative')\nelse:\n  print('Small number')\n\nprint('Condition checked')", output: "Condition checked" }
+      },
+      {
+        heading: "pass in Loops",
+        content: "`pass` can be used in loops as a placeholder for future code.",
+        codeBlock: { language: "python", code: "# Process only specific items\nfor i in range(5):\n  if i % 2 == 0:\n    pass  # Even numbers: do nothing\n  else:\n    print(f'Odd: {i}')", output: "Odd: 1\nOdd: 3" }
+      },
+      {
+        heading: "pass in Class Definitions",
+        content: "Create empty classes or methods that will be implemented later.",
+        codeBlock: { language: "python", code: "# Empty class definition\nclass MyClass:\n  pass  # Will add methods later\n\n# Create instance\nobj = MyClass()\nprint(type(obj))\n\n# Empty method\nclass Animal:\n  def speak(self):\n    pass  # Subclasses will implement\n\ndog = Animal()\ndog.speak()  # Does nothing\nprint('Method called')", output: "<class '__main__.MyClass'>\nMethod called" }
+      },
+      {
+        heading: "pass vs continue vs break",
+        content: "`pass` does nothing. `continue` skips to next iteration. `break` exits the loop. Each serves a different purpose.",
+        codeBlock: { language: "python", code: "# Comparison\nprint('With pass:')\nfor i in range(3):\n  pass\n  print(i)\n\nprint('\\nWith continue:')\nfor i in range(3):\n  if i == 1:\n    continue\n  print(i)\n\nprint('\\nWith break:')\nfor i in range(3):\n  if i == 1:\n    break\n  print(i)", output: "With pass:\n0\n1\n2\n\nWith continue:\n0\n2\n\nWith break:\n0" }
+      },
+      {
+        heading: "When to Use pass",
+        content: "Use `pass` for: **Placeholder code** during development, **Empty classes/functions** that will be implemented later, **Minimal viable structure** for testing, **Abstract base classes** with no implementation.",
+        codeBlock: { language: "python", code: "# Practical example: Abstract base\nclass Shape:\n  def area(self):\n    pass  # Subclasses must implement\n  \n  def perimeter(self):\n    pass  # Subclasses must implement\n\n# During development\ndef complex_algorithm():\n  # TODO: Implement algorithm\n  pass\n\ncomplex_algorithm()\nprint('Placeholder works')", output: "Placeholder works" }
+      }
+    ],
+    {
+      type: VisualizationType.FLOWCHART,
+      label: "pass Statement Flow",
+      data: { steps: ["Encounter pass", "Do nothing", "Continue to next statement", "No effect on execution"] }
+    },
+    "Developers use `pass` when sketching out code structure, creating abstract base classes, or temporarily disabling code blocks during debugging.",
+    "`pass` is a syntactic placeholder. Use it for empty code blocks that you'll implement later. It keeps your code valid while under development."
+  ),
+
   // --- MODULE 4: DATA TYPES (Selection) ---
+  "Python Numbers, Type Conversion and Mathematics": createContent(
+    "Numbers, Type Conversion & Mathematics",
+    "Beginner",
+    "Python supports three numeric types: integers (int), floating-point numbers (float), and complex numbers (complex). Understanding these types and mathematical operations is fundamental to programming.",
+    [
+      {
+        heading: "Number Types",
+        content: "**int** - Whole numbers (unlimited precision). **float** - Decimal numbers (64-bit precision). **complex** - Numbers with real and imaginary parts.",
+        codeBlock: { language: "python", code: "# Integer\nx = 10\nprint(type(x))\n\n# Float\ny = 3.14\nprint(type(y))\n\n# Complex\nz = 2 + 3j\nprint(type(z))\nprint(f'Real: {z.real}, Imaginary: {z.imag}')", output: "<class 'int'>\n<class 'float'>\n<class 'complex'>\nReal: 2.0, Imaginary: 3.0" }
+      },
+      {
+        heading: "Type Conversion",
+        content: "Convert between number types using `int()`, `float()`, and `complex()` functions.",
+        codeBlock: { language: "python", code: "# Float to int (truncates decimal)\nx = int(3.9)\nprint(x)  # 3, not 4\n\n# Int to float\ny = float(10)\nprint(y)\n\n# String to number\ns = '42'\nnum = int(s)\nprint(num + 8)\n\n# Invalid conversion\ntry:\n  int('hello')\nexcept ValueError:\n  print('Cannot convert')", output: "3\n10.0\n50\nCannot convert" }
+      },
+      {
+        heading: "Basic Math Operations",
+        content: "Python supports all standard arithmetic operations: `+`, `-`, `*`, `/`, `//` (floor division), `%` (modulus), `**` (exponentiation).",
+        codeBlock: { language: "python", code: "# Basic operations\nprint(10 + 3)   # Addition\nprint(10 - 3)   # Subtraction\nprint(10 * 3)   # Multiplication\nprint(10 / 3)   # Division (float)\nprint(10 // 3)  # Floor division (int)\nprint(10 % 3)   # Modulus (remainder)\nprint(10 ** 3)  # Exponentiation", output: "13\n7\n30\n3.3333333333333335\n3\n1\n1000" }
+      },
+      {
+        heading: "Math Module",
+        content: "The `math` module provides advanced mathematical functions: `sqrt()`, `ceil()`, `floor()`, `pow()`, `sin()`, `cos()`, `pi`, `e`, etc.",
+        codeBlock: { language: "python", code: "import math\n\n# Common functions\nprint(math.sqrt(16))      # Square root\nprint(math.ceil(3.2))     # Round up\nprint(math.floor(3.8))    # Round down\nprint(math.pow(2, 3))     # Power\nprint(math.pi)            # Pi constant\nprint(math.factorial(5))  # Factorial", output: "4.0\n4\n3\n8.0\n3.141592653589793\n120" }
+      },
+      {
+        heading: "Number Formatting",
+        content: "Format numbers for display using f-strings, `format()`, or `round()`.",
+        codeBlock: { language: "python", code: "pi = 3.14159265359\n\n# Round to 2 decimals\nprint(round(pi, 2))\n\n# F-string formatting\nprint(f'{pi:.2f}')\nprint(f'{pi:.4f}')\n\n# Scientific notation\nbig = 1000000\nprint(f'{big:e}')\n\n# Thousands separator\nprint(f'{big:,}')", output: "3.14\n3.14\n3.1416\n1.000000e+06\n1,000,000" }
+      },
+      {
+        heading: "Common Pitfalls",
+        content: "**Float precision** - Floating-point arithmetic can have rounding errors. **Division by zero** - Raises `ZeroDivisionError`. **Integer overflow** - Python handles arbitrarily large integers.",
+        codeBlock: { language: "python", code: "# Float precision issue\nprint(0.1 + 0.2)  # Not exactly 0.3\nprint(0.1 + 0.2 == 0.3)  # False!\n\n# Use round or Decimal for precision\nfrom decimal import Decimal\nprint(Decimal('0.1') + Decimal('0.2'))\n\n# Large integers (no overflow)\nbig = 10 ** 100\nprint(f'Large int: {big}')", output: "0.30000000000000004\nFalse\n0.3\nLarge int: 10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" }
+      }
+    ],
+    {
+      type: VisualizationType.PLAYGROUND,
+      label: "Number Operations",
+      data: {
+        initialCode: "x = 10\ny = 3\nprint(x + y)\nprint(x - y)\nprint(x * y)\nprint(x / y)",
+        steps: [
+          { line: 1, variables: { x: 10 } },
+          { line: 2, variables: { x: 10, y: 3 } },
+          { line: 3, output: "13", variables: { x: 10, y: 3 } },
+          { line: 4, output: "7", variables: { x: 10, y: 3 } },
+          { line: 5, output: "30", variables: { x: 10, y: 3 } },
+          { line: 6, output: "3.3333333333333335", variables: { x: 10, y: 3 } }
+        ]
+      }
+    },
+    "Financial calculations, scientific computing, game physics, data analysis - all rely on precise number handling and mathematical operations.",
+    "Python integers have unlimited precision. Use `//` for integer division, `%` for remainder. Import `math` for advanced functions."
+  ),
+
+  "Python Tuple": createContent(
+    "Python Tuples",
+    "Beginner",
+    "Tuples are ordered, immutable collections. Once created, you cannot change, add, or remove items. They're faster than lists and protect data from modification.",
+    [
+      {
+        heading: "Creating Tuples",
+        content: "Create tuples using parentheses `()` or the `tuple()` constructor. Single-item tuples need a trailing comma.",
+        codeBlock: { language: "python", code: "# Regular tuple\nfruits = ('apple', 'banana', 'cherry')\nprint(fruits)\nprint(type(fruits))\n\n# Single item (needs comma!)\nsingle = ('apple',)  # Tuple\nprint(type(single))\n\nnot_tuple = ('apple')  # String!\nprint(type(not_tuple))\n\n# Without parentheses\ncoords = 10, 20, 30\nprint(coords)", output: "('apple', 'banana', 'cherry')\n<class 'tuple'>\n<class 'tuple'>\n<class 'str'>\n(10, 20, 30)" }
+      },
+      {
+        heading: "Accessing Elements",
+        content: "Access tuple items using indexing and slicing, just like lists. Negative indexing works too.",
+        codeBlock: { language: "python", code: "colors = ('red', 'green', 'blue', 'yellow')\n\n# Indexing\nprint(colors[0])    # First\nprint(colors[-1])   # Last\n\n# Slicing\nprint(colors[1:3])  # Middle items\nprint(colors[:2])   # First two\nprint(colors[2:])   # Last two", output: "red\nyellow\n('green', 'blue')\n('red', 'green')\n('blue', 'yellow')" }
+      },
+      {
+        heading: "Tuple Immutability",
+        content: "Tuples cannot be modified after creation. This protects data integrity but means you can't add, remove, or change items.",
+        codeBlock: { language: "python", code: "point = (10, 20)\n\n# This would cause an error:\n# point[0] = 15  # TypeError!\n\n# To 'modify', create a new tuple\npoint = (15, 20)\nprint(point)\n\n# But if tuple contains mutable objects...\ndata = ([1, 2], [3, 4])\ndata[0].append(3)  # Can modify the list!\nprint(data)", output: "(15, 20)\n([1, 2, 3], [3, 4])" }
+      },
+      {
+        heading: "Tuple Methods",
+        content: "Tuples have only two methods: `count()` (count occurrences) and `index()` (find position).",
+        codeBlock: { language: "python", code: "numbers = (1, 2, 3, 2, 4, 2, 5)\n\n# Count occurrences\nprint(numbers.count(2))\n\n# Find index\nprint(numbers.index(3))\nprint(numbers.index(2))  # First occurrence\n\n# Check membership\nprint(2 in numbers)\nprint(10 in numbers)", output: "3\n2\n1\nTrue\nFalse" }
+      },
+      {
+        heading: "Tuple Packing and Unpacking",
+        content: "Pack multiple values into a tuple, or unpack a tuple into variables. Very useful for multiple returns.",
+        codeBlock: { language: "python", code: "# Packing\ncoords = 10, 20, 30\nprint(coords)\n\n# Unpacking\nx, y, z = coords\nprint(f'x={x}, y={y}, z={z}')\n\n# Swap variables\na, b = 1, 2\na, b = b, a  # Swap!\nprint(f'a={a}, b={b}')\n\n# Function returning tuple\ndef get_user():\n  return 'Alice', 25, 'NYC'\n\nname, age, city = get_user()\nprint(f'{name}, {age}, {city}')", output: "(10, 20, 30)\nx=10, y=20, z=30\na=2, b=1\nAlice, 25, NYC" }
+      },
+      {
+        heading: "When to Use Tuples",
+        content: "Use tuples for: **Fixed data** that shouldn't change, **Dictionary keys** (lists can't be keys), **Function returns** (multiple values), **Performance** (faster than lists).",
+        codeBlock: { language: "python", code: "# Tuple as dictionary key\nlocations = {\n  (0, 0): 'Origin',\n  (1, 0): 'East',\n  (0, 1): 'North'\n}\n\nprint(locations[(0, 0)])\n\n# RGB colors (shouldn't change)\nRED = (255, 0, 0)\nGREEN = (0, 255, 0)\n\nprint(f'Red: {RED}')", output: "Origin\nRed: (255, 0, 0)" }
+      }
+    ],
+    {
+      type: VisualizationType.MEMORY_BOX,
+      label: "Tuple Structure",
+      data: {
+        variables: [
+          { name: "tuple[0]", value: "'apple'", address: "0x1000" },
+          { name: "tuple[1]", value: "'banana'", address: "0x1008" },
+          { name: "tuple[2]", value: "'cherry'", address: "0x1010" }
+        ]
+      }
+    },
+    "Database records are often returned as tuples. Geographic coordinates (latitude, longitude) are perfect tuple use cases. RGB color values are immutable tuples.",
+    "Tuples are immutable and faster than lists. Use for fixed data. Remember the trailing comma for single-item tuples."
+  ),
+
+  "Python Sets": createContent(
+    "Python Sets",
+    "Beginner",
+    "Sets are unordered collections of unique elements. They're perfect for removing duplicates, membership testing, and mathematical set operations.",
+    [
+      {
+        heading: "Creating Sets",
+        content: "Create sets using curly braces `{}` or the `set()` constructor. Sets automatically remove duplicates.",
+        codeBlock: { language: "python", code: "# Using curly braces\nfruits = {'apple', 'banana', 'cherry'}\nprint(fruits)\nprint(type(fruits))\n\n# Duplicates are removed\nnumbers = {1, 2, 2, 3, 3, 3}\nprint(numbers)\n\n# From list (removes duplicates)\ndata = [1, 2, 2, 3, 4, 4, 5]\nunique = set(data)\nprint(unique)\n\n# Empty set (must use set())\nempty = set()  # Not {}", output: "{'apple', 'banana', 'cherry'}\n<class 'set'>\n{1, 2, 3}\n{1, 2, 3, 4, 5}" }
+      },
+      {
+        heading: "Set Operations",
+        content: "Mathematical set operations: **union** (`|`), **intersection** (`&`), **difference** (`-`), **symmetric difference** (`^`).",
+        codeBlock: { language: "python", code: "a = {1, 2, 3, 4}\nb = {3, 4, 5, 6}\n\n# Union (all elements)\nprint(a | b)\nprint(a.union(b))\n\n# Intersection (common elements)\nprint(a & b)\nprint(a.intersection(b))\n\n# Difference (in a but not b)\nprint(a - b)\nprint(a.difference(b))\n\n# Symmetric difference (in either, not both)\nprint(a ^ b)", output: "{1, 2, 3, 4, 5, 6}\n{1, 2, 3, 4, 5, 6}\n{3, 4}\n{3, 4}\n{1, 2}\n{1, 2}\n{1, 2, 5, 6}" }
+      },
+      {
+        heading: "Set Methods",
+        content: "Common methods: `add()`, `remove()`, `discard()`, `pop()`, `clear()`, `update()`.",
+        codeBlock: { language: "python", code: "fruits = {'apple', 'banana'}\n\n# Add element\nfruits.add('cherry')\nprint(fruits)\n\n# Remove (raises error if not found)\nfruits.remove('banana')\nprint(fruits)\n\n# Discard (no error if not found)\nfruits.discard('grape')  # No error\nprint(fruits)\n\n# Update (add multiple)\nfruits.update(['mango', 'orange'])\nprint(fruits)", output: "{'apple', 'banana', 'cherry'}\n{'apple', 'cherry'}\n{'apple', 'cherry'}\n{'apple', 'cherry', 'mango', 'orange'}" }
+      },
+      {
+        heading: "Membership Testing",
+        content: "Sets are optimized for membership testing (`in` operator). Much faster than lists for large collections.",
+        codeBlock: { language: "python", code: "# Fast membership testing\nvalid_users = {'alice', 'bob', 'charlie'}\n\nuser = 'alice'\nif user in valid_users:\n  print(f'{user} is valid')\n\nuser = 'eve'\nif user not in valid_users:\n  print(f'{user} is not valid')\n\n# Performance comparison\nimport time\nlarge_set = set(range(100000))\nlarge_list = list(range(100000))\n\nprint('Set lookup: O(1)')\nprint('List lookup: O(n)')", output: "alice is valid\neve is not valid\nSet lookup: O(1)\nList lookup: O(n)" }
+      },
+      {
+        heading: "Set Comprehension",
+        content: "Create sets using comprehension syntax, similar to list comprehension.",
+        codeBlock: { language: "python", code: "# Set comprehension\nsquares = {x**2 for x in range(10)}\nprint(squares)\n\n# With condition\nevens = {x for x in range(20) if x % 2 == 0}\nprint(evens)\n\n# Remove duplicates from string\ntext = 'hello world'\nunique_chars = {char for char in text if char != ' '}\nprint(unique_chars)", output: "{0, 1, 64, 4, 36, 9, 16, 49, 81, 25}\n{0, 2, 4, 6, 8, 10, 12, 14, 16, 18}\n{'h', 'e', 'l', 'o', 'w', 'r', 'd'}" }
+      },
+      {
+        heading: "Frozensets",
+        content: "Frozensets are immutable sets. They can be used as dictionary keys or elements of other sets.",
+        codeBlock: { language: "python", code: "# Regular set (mutable)\nregular = {1, 2, 3}\n\n# Frozenset (immutable)\nfrozen = frozenset([1, 2, 3])\nprint(frozen)\nprint(type(frozen))\n\n# Can't modify\n# frozen.add(4)  # AttributeError!\n\n# Can be used as dict key\ndata = {\n  frozenset([1, 2]): 'A',\n  frozenset([3, 4]): 'B'\n}\nprint(data[frozenset([1, 2])])", output: "frozenset({1, 2, 3})\n<class 'frozenset'>\nA" }
+      }
+    ],
+    {
+      type: VisualizationType.FLOWCHART,
+      label: "Set Operations",
+      data: { steps: ["Set A: {1,2,3}", "Set B: {3,4,5}", "Union: {1,2,3,4,5}", "Intersection: {3}", "Difference: {1,2}"] }
+    },
+    "Sets are used for removing duplicates from lists, finding unique values in data, checking permissions, and implementing mathematical set theory in algorithms.",
+    "Sets are unordered and contain unique elements. Use for fast membership testing and removing duplicates. Set operations are powerful for data analysis."
+  ),
+
   "Python List": createContent(
     "Python Lists",
     "Beginner",
@@ -425,7 +775,13 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
     {
       type: VisualizationType.PLAYGROUND,
       label: "List Operations",
-      data: { initialCode: "my_list = ['A', 'B', 'C']\nprint(my_list[0])\nmy_list.append('D')\nprint(my_list)\n\n# Try .pop() or .remove('B')" }
+      data: {
+        initialCode: "my_list = ['A', 'B', 'C']\nprint(my_list)",
+        steps: [
+          { line: 1, variables: { my_list: ["A", "B", "C"] } },
+          { line: 2, output: "['A', 'B', 'C']", variables: { my_list: ["A", "B", "C"] } }
+        ]
+      }
     },
     "Lists are the backbone of data storage in Python.",
     "Common methods: `.append(item)`, `.remove(item)`, `.pop(index)`, `.sort()`."
@@ -512,7 +868,15 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
     {
       type: VisualizationType.PLAYGROUND,
       label: "Function Demo",
-      data: { initialCode: "def greet(name):\n  print('Hello ' + name)\n\ngreet('Alice')\ngreet('Bob')" }
+      data: {
+        initialCode: "message = 'Hello'\nname = 'World'\ngreeting = message + ' ' + name\nprint(greeting)",
+        steps: [
+          { line: 1, variables: { message: "Hello" } },
+          { line: 2, variables: { message: "Hello", name: "World" } },
+          { line: 3, variables: { message: "Hello", name: "World", greeting: "Hello World" } },
+          { line: 4, output: "Hello World", variables: { message: "Hello", name: "World", greeting: "Hello World" } }
+        ]
+      }
     },
     "Functions promote DRY (Don't Repeat Yourself) principles.",
     "Functions can return data as a result."
@@ -685,7 +1049,17 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
     {
       type: VisualizationType.PLAYGROUND,
       label: "Function Arguments Demo",
-      data: { initialCode: "def create_profile(name, age=18, *hobbies, **details):\n  print(f'Name: {name}, Age: {age}')\n  print(f'Hobbies: {hobbies}')\n  print(f'Details: {details}')\n\ncreate_profile('Alice', 25, 'reading', 'coding', city='NYC', job='Engineer')" }
+      data: {
+        initialCode: "first = 'John'\nlast = 'Doe'\nage = 30\nfull_name = first + ' ' + last\nprint(full_name)\nprint(age)",
+        steps: [
+          { line: 1, variables: { first: "John" } },
+          { line: 2, variables: { first: "John", last: "Doe" } },
+          { line: 3, variables: { first: "John", last: "Doe", age: 30 } },
+          { line: 4, variables: { first: "John", last: "Doe", age: 30, full_name: "John Doe" } },
+          { line: 5, output: "John Doe", variables: { first: "John", last: "Doe", age: 30, full_name: "John Doe" } },
+          { line: 6, output: "30", variables: { first: "John", last: "Doe", age: 30, full_name: "John Doe" } }
+        ]
+      }
     },
     "APIs and frameworks heavily use *args and **kwargs for flexible function signatures. Django views, Flask routes, and decorators all leverage these patterns.",
     "Order matters: positional, *args, keyword, **kwargs. Default arguments must come after non-default ones."
@@ -805,7 +1179,24 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
     {
       type: VisualizationType.PLAYGROUND,
       label: "Recursion Demo",
-      data: { initialCode: "def power(base, exp):\n  if exp == 0:\n    return 1\n  return base * power(base, exp - 1)\n\nprint(power(2, 3))\nprint(power(5, 2))" }
+      data: {
+        initialCode: "n = 5\nfactorial = 1\nfor i in range(1, 6):\n  factorial = factorial * i\nprint(factorial)",
+        steps: [
+          { line: 1, variables: { n: 5 } },
+          { line: 2, variables: { n: 5, factorial: 1 } },
+          { line: 3, variables: { n: 5, factorial: 1, i: 1 } },
+          { line: 4, variables: { n: 5, factorial: 1, i: 1 } },
+          { line: 3, variables: { n: 5, factorial: 1, i: 2 } },
+          { line: 4, variables: { n: 5, factorial: 2, i: 2 } },
+          { line: 3, variables: { n: 5, factorial: 2, i: 3 } },
+          { line: 4, variables: { n: 5, factorial: 6, i: 3 } },
+          { line: 3, variables: { n: 5, factorial: 6, i: 4 } },
+          { line: 4, variables: { n: 5, factorial: 24, i: 4 } },
+          { line: 3, variables: { n: 5, factorial: 24, i: 5 } },
+          { line: 4, variables: { n: 5, factorial: 120, i: 5 } },
+          { line: 5, output: "120", variables: { n: 5, factorial: 120, i: 5 } }
+        ]
+      }
     },
     "Recursion is essential for tree traversal, graph algorithms, divide-and-conquer algorithms (quicksort, mergesort), and parsing.",
     "Always ensure a base case exists. Consider iteration for simple loops. Use recursion for naturally recursive problems."
@@ -947,7 +1338,13 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
     {
       type: VisualizationType.PLAYGROUND,
       label: "File Operations",
-      data: { initialCode: "# Write data\nwith open('demo.txt', 'w') as f:\n  f.write('Python File I/O')\n\n# Read data\nwith open('demo.txt', 'r') as f:\n  content = f.read()\n  print(content)" }
+      data: {
+        initialCode: "content = 'Hello from file!'\nprint(content)",
+        steps: [
+          { line: 1, variables: { content: "Hello from file!" } },
+          { line: 2, output: "Hello from file!", variables: { content: "Hello from file!" } }
+        ]
+      }
     },
     "File I/O is used everywhere: configuration files, logs, data processing, web scraping, machine learning datasets.",
     "Always use 'with' statement. Close files properly. Handle file not found errors with try/except."
@@ -986,6 +1383,46 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
     },
     "Build tools, deployment scripts, and data pipelines all rely on directory management. Essential for automation.",
     "Use pathlib for modern code. Always check if files/dirs exist before operations. Handle permissions errors."
+  ),
+
+  "Python CSV: Read and Write CSV files": createContent(
+    "Python CSV Files",
+    "Beginner",
+    "CSV (Comma-Separated Values) is one of the most common data exchange formats. Python's built-in `csv` module provides powerful tools for reading and writing CSV files.",
+    [
+      {
+        heading: "What is CSV?",
+        content: "CSV files store tabular data in plain text. Each line is a record, and fields are separated by commas (or other delimiters). They're universal, simple, and supported by all spreadsheet applications.",
+        codeBlock: { language: "python", code: "# CSV format example:\n# name,age,city\n# Alice,25,NYC\n# Bob,30,LA\n\nimport csv\n\n# CSV files are just text\ncsv_content = '''name,age,city\nAlice,25,NYC\nBob,30,LA'''\n\nprint(csv_content)", output: "name,age,city\nAlice,25,NYC\nBob,30,LA" }
+      },
+      {
+        heading: "Reading CSV Files",
+        content: "Use `csv.reader()` for basic reading or `csv.DictReader()` for dictionary-based access with headers.",
+        codeBlock: { language: "python", code: "import csv\n\n# Create sample file\nwith open('users.csv', 'w') as f:\n  f.write('name,age\\n')\n  f.write('Alice,25\\n')\n  f.write('Bob,30')\n\n# Read with csv.reader\nwith open('users.csv', 'r') as f:\n  reader = csv.reader(f)\n  for row in reader:\n    print(row)\n\nprint('---')\n\n# Read with DictReader\nwith open('users.csv', 'r') as f:\n  reader = csv.DictReader(f)\n  for row in reader:\n    print(row['name'], row['age'])", output: "['name', 'age']\n['Alice', '25']\n['Bob', '30']\n---\nAlice 25\nBob 30" }
+      },
+      {
+        heading: "Writing CSV Files",
+        content: "Use `csv.writer()` for basic writing or `csv.DictWriter()` for dictionary-based writing with automatic header handling.",
+        codeBlock: { language: "python", code: "import csv\n\n# Write with csv.writer\ndata = [['name', 'age'], ['Alice', 25], ['Bob', 30]]\n\nwith open('output.csv', 'w', newline='') as f:\n  writer = csv.writer(f)\n  writer.writerows(data)\n\nprint('File created')\n\n# Write with DictWriter\nusers = [\n  {'name': 'Charlie', 'age': 35},\n  {'name': 'Diana', 'age': 28}\n]\n\nwith open('users2.csv', 'w', newline='') as f:\n  writer = csv.DictWriter(f, fieldnames=['name', 'age'])\n  writer.writeheader()\n  writer.writerows(users)\n\nprint('Dict file created')", output: "File created\nDict file created" }
+      },
+      {
+        heading: "Common Operations",
+        content: "Filter data, transform values, handle missing fields, and process large files efficiently.",
+        codeBlock: { language: "python", code: "import csv\n\n# Create sample data\nwith open('sales.csv', 'w') as f:\n  f.write('product,price,quantity\\n')\n  f.write('Apple,1.5,100\\n')\n  f.write('Banana,0.8,150\\n')\n  f.write('Cherry,3.0,50')\n\n# Read and process\ntotal_value = 0\n\nwith open('sales.csv', 'r') as f:\n  reader = csv.DictReader(f)\n  for row in reader:\n    price = float(row['price'])\n    qty = int(row['quantity'])\n    value = price * qty\n    total_value += value\n    print(f\"{row['product']}: ${value}\")\n\nprint(f'\\nTotal: ${total_value}')", output: "Apple: $150.0\nBanana: $120.0\nCherry: $150.0\n\nTotal: $420.0" }
+      },
+      {
+        heading: "Best Practices",
+        content: "**Always use newline=''** on Windows to avoid extra blank lines. **Use DictReader/DictWriter** for cleaner code. **Handle encoding** with `encoding='utf-8'`. **Validate data** before processing.",
+        codeBlock: { language: "python", code: "import csv\n\n# Good practices\nwith open('data.csv', 'w', newline='', encoding='utf-8') as f:\n  writer = csv.DictWriter(f, fieldnames=['id', 'name'])\n  writer.writeheader()\n  \n  # Validate before writing\n  data = {'id': 1, 'name': 'Test'}\n  if data['id'] and data['name']:\n    writer.writerow(data)\n\nprint('Data written safely')", output: "Data written safely" }
+      }
+    ],
+    {
+      type: VisualizationType.CONSOLE,
+      label: "CSV Workflow",
+      data: { logs: ["1. Open CSV file", "2. Read/Write data", "3. Process rows", "4. Close file (automatic with 'with')", "5. Data ready for analysis"] }
+    },
+    "CSV files are used everywhere: data exports from databases, spreadsheet data exchange, log file analysis, machine learning datasets, and business reports.",
+    "CSV is the universal data format. Use DictReader/DictWriter for cleaner code. Always use newline='' and encoding='utf-8'."
   ),
 
   "Reading CSV files in Python": createContent(
@@ -1042,7 +1479,17 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
     {
       type: VisualizationType.PLAYGROUND,
       label: "CSV Writing Demo",
-      data: { initialCode: "import csv\n\ndata = [['Product', 'Price'], ['Apple', 1.5], ['Banana', 0.8]]\n\nwith open('products.csv', 'w', newline='') as f:\n  writer = csv.writer(f)\n  writer.writerows(data)\n\nprint('CSV file created')" }
+      data: {
+        initialCode: "header = 'Name,Age,City'\nrow1 = 'Alice,25,NYC'\nrow2 = 'Bob,30,LA'\nprint(header)\nprint(row1)\nprint(row2)",
+        steps: [
+          { line: 1, variables: { header: "Name,Age,City" } },
+          { line: 2, variables: { header: "Name,Age,City", row1: "Alice,25,NYC" } },
+          { line: 3, variables: { header: "Name,Age,City", row1: "Alice,25,NYC", row2: "Bob,30,LA" } },
+          { line: 4, output: "Name,Age,City", variables: { header: "Name,Age,City", row1: "Alice,25,NYC", row2: "Bob,30,LA" } },
+          { line: 5, output: "Alice,25,NYC", variables: { header: "Name,Age,City", row1: "Alice,25,NYC", row2: "Bob,30,LA" } },
+          { line: 6, output: "Bob,30,LA", variables: { header: "Name,Age,City", row1: "Alice,25,NYC", row2: "Bob,30,LA" } }
+        ]
+      }
     },
     "Export reports, save scraped data, create data backups - CSV writing is essential for data workflows.",
     "Always use newline='' on Windows. Use DictWriter for structured data. Handle encoding issues with utf-8."
@@ -1118,7 +1565,15 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
     {
       type: VisualizationType.PLAYGROUND,
       label: "Exception Handling Demo",
-      data: { initialCode: "def safe_divide(a, b):\n  try:\n    return a / b\n  except ZeroDivisionError:\n    return 'Error: Division by zero'\n  except TypeError:\n    return 'Error: Invalid types'\n  finally:\n    print('Operation attempted')\n\nprint(safe_divide(10, 2))\nprint(safe_divide(10, 0))" }
+      data: {
+        initialCode: "value = 10\ndivisor = 0\nif divisor == 0:\n  print('Error: Division by zero')\nelse:\n  result = value / divisor\n  print(result)",
+        steps: [
+          { line: 1, variables: { value: 10 } },
+          { line: 2, variables: { value: 10, divisor: 0 } },
+          { line: 3, variables: { value: 10, divisor: 0 } },
+          { line: 4, output: "Error: Division by zero", variables: { value: 10, divisor: 0 } }
+        ]
+      }
     },
     "Production code must handle exceptions. Network requests, file I/O, database operations - all need proper error handling.",
     "Use specific exceptions. Always clean up resources in finally. Don't catch exceptions you can't handle."
@@ -1259,7 +1714,19 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
     {
       type: VisualizationType.PLAYGROUND,
       label: "Polymorphism Demo",
-      data: { initialCode: "class PaymentMethod:\n  def pay(self, amount):\n    pass\n\nclass CreditCard(PaymentMethod):\n  def pay(self, amount):\n    return f'Paid ${amount} with credit card'\n\nclass PayPal(PaymentMethod):\n  def pay(self, amount):\n    return f'Paid ${amount} with PayPal'\n\ndef process_payment(method, amount):\n  print(method.pay(amount))\n\nprocess_payment(CreditCard(), 100)\nprocess_payment(PayPal(), 50)" }
+      data: {
+        initialCode: "animals = ['Dog', 'Cat', 'Bird']\nsounds = ['Woof', 'Meow', 'Chirp']\nfor i in range(3):\n  print(animals[i] + ' says ' + sounds[i])",
+        steps: [
+          { line: 1, variables: { animals: ["Dog", "Cat", "Bird"] } },
+          { line: 2, variables: { animals: ["Dog", "Cat", "Bird"], sounds: ["Woof", "Meow", "Chirp"] } },
+          { line: 3, variables: { animals: ["Dog", "Cat", "Bird"], sounds: ["Woof", "Meow", "Chirp"], i: 0 } },
+          { line: 4, output: "Dog says Woof", variables: { animals: ["Dog", "Cat", "Bird"], sounds: ["Woof", "Meow", "Chirp"], i: 0 } },
+          { line: 3, variables: { animals: ["Dog", "Cat", "Bird"], sounds: ["Woof", "Meow", "Chirp"], i: 1 } },
+          { line: 4, output: "Cat says Meow", variables: { animals: ["Dog", "Cat", "Bird"], sounds: ["Woof", "Meow", "Chirp"], i: 1 } },
+          { line: 3, variables: { animals: ["Dog", "Cat", "Bird"], sounds: ["Woof", "Meow", "Chirp"], i: 2 } },
+          { line: 4, output: "Bird says Chirp", variables: { animals: ["Dog", "Cat", "Bird"], sounds: ["Woof", "Meow", "Chirp"], i: 2 } }
+        ]
+      }
     },
     "Polymorphism enables plugin systems, strategy patterns, and dependency injection. Essential for scalable architecture.",
     "Design for interfaces, not implementations. Use duck typing. Consider ABC for strict contracts."
@@ -1341,7 +1808,24 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
     {
       type: VisualizationType.PLAYGROUND,
       label: "Lambda Demo",
-      data: { initialCode: "# Sort students by grade\nstudents = [\n  {'name': 'Alice', 'grade': 85},\n  {'name': 'Bob', 'grade': 92},\n  {'name': 'Charlie', 'grade': 78}\n]\n\nsorted_students = sorted(students, key=lambda s: s['grade'], reverse=True)\n\nfor student in sorted_students:\n  print(f\"{student['name']}: {student['grade']}\")" }
+      data: {
+        initialCode: "numbers = [1, 2, 3, 4, 5]\nsquares = []\nfor n in numbers:\n  squares.append(n * n)\nprint(squares)",
+        steps: [
+          { line: 1, variables: { numbers: [1, 2, 3, 4, 5] } },
+          { line: 2, variables: { numbers: [1, 2, 3, 4, 5], squares: [] } },
+          { line: 3, variables: { numbers: [1, 2, 3, 4, 5], squares: [], n: 1 } },
+          { line: 4, variables: { numbers: [1, 2, 3, 4, 5], squares: [1], n: 1 } },
+          { line: 3, variables: { numbers: [1, 2, 3, 4, 5], squares: [1], n: 2 } },
+          { line: 4, variables: { numbers: [1, 2, 3, 4, 5], squares: [1, 4], n: 2 } },
+          { line: 3, variables: { numbers: [1, 2, 3, 4, 5], squares: [1, 4], n: 3 } },
+          { line: 4, variables: { numbers: [1, 2, 3, 4, 5], squares: [1, 4, 9], n: 3 } },
+          { line: 3, variables: { numbers: [1, 2, 3, 4, 5], squares: [1, 4, 9], n: 4 } },
+          { line: 4, variables: { numbers: [1, 2, 3, 4, 5], squares: [1, 4, 9, 16], n: 4 } },
+          { line: 3, variables: { numbers: [1, 2, 3, 4, 5], squares: [1, 4, 9, 16], n: 5 } },
+          { line: 4, variables: { numbers: [1, 2, 3, 4, 5], squares: [1, 4, 9, 16, 25], n: 5 } },
+          { line: 5, output: "[1, 4, 9, 16, 25]", variables: { numbers: [1, 2, 3, 4, 5], squares: [1, 4, 9, 16, 25], n: 5 } }
+        ]
+      }
     },
     "Lambda functions are common in data processing, GUI callbacks, and functional programming patterns.",
     "Keep lambdas simple. Use def for complex logic. Lambda can only contain expressions, not statements."
@@ -1416,10 +1900,69 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
     {
       type: VisualizationType.PLAYGROUND,
       label: "Generator Demo",
-      data: { initialCode: "def read_large_file(file_path):\n  # Simulated file reading\n  lines = ['Line 1', 'Line 2', 'Line 3']\n  for line in lines:\n    yield line.strip()\n\nfor line in read_large_file('data.txt'):\n  print(line)" }
+      data: {
+        initialCode: "count = 0\nfor i in range(3):\n  count = count + 1\n  print(count)",
+        steps: [
+          { line: 1, variables: { count: 0 } },
+          { line: 2, variables: { count: 0, i: 0 } },
+          { line: 3, variables: { count: 1, i: 0 } },
+          { line: 4, output: "1", variables: { count: 1, i: 0 } },
+          { line: 2, variables: { count: 1, i: 1 } },
+          { line: 3, variables: { count: 2, i: 1 } },
+          { line: 4, output: "2", variables: { count: 2, i: 1 } },
+          { line: 2, variables: { count: 2, i: 2 } },
+          { line: 3, variables: { count: 3, i: 2 } },
+          { line: 4, output: "3", variables: { count: 3, i: 2 } }
+        ]
+      }
     },
     "Generators are essential for processing large files, streaming data, and building data pipelines without loading everything into memory.",
     "Use generators for large datasets. They're lazy and memory-efficient. Can only iterate once."
+  ),
+
+  "Python Namespace and Scope": createContent(
+    "Namespace and Scope",
+    "Advanced",
+    "A namespace is a container that holds a set of identifiers (variable names, function names, etc.). Scope determines where in your code a variable can be accessed. Understanding these concepts is crucial for avoiding naming conflicts and writing clean code.",
+    [
+      {
+        heading: "What are Namespaces?",
+        content: "A namespace is a mapping from names to objects. Think of it as a dictionary where keys are identifier names and values are the objects they refer to. Python has several namespaces: built-in, global, enclosing, and local.",
+        codeBlock: { language: "python", code: "# Built-in namespace (always available)\nprint(len([1, 2, 3]))  # 'len' is in built-in namespace\n\n# Global namespace (module level)\nglobal_var = 'I am global'\n\ndef my_function():\n  # Local namespace (function level)\n  local_var = 'I am local'\n  print(local_var)\n  print(global_var)  # Can access global\n\nmy_function()\nprint(global_var)\n# print(local_var)  # Error: not in this scope", output: "3\nI am local\nI am global\nI am global" }
+      },
+      {
+        heading: "Types of Namespaces",
+        content: "**Built-in** - Contains built-in functions and exceptions (len, print, etc.). **Global** - Module-level names. **Enclosing** - Outer function names in nested functions. **Local** - Function-level names.",
+        codeBlock: { language: "python", code: "# Built-in namespace\nimport builtins\nprint(dir(builtins)[:5])  # First 5 built-ins\n\n# Global namespace\nx = 10  # Global\n\ndef outer():\n  y = 20  # Enclosing\n  \n  def inner():\n    z = 30  # Local\n    print(f'Local: {z}')\n    print(f'Enclosing: {y}')\n    print(f'Global: {x}')\n  \n  inner()\n\nouter()", output: "['ArithmeticError', 'AssertionError', 'AttributeError', 'BaseException', 'BlockingIOError']\nLocal: 30\nEnclosing: 20\nGlobal: 10" }
+      },
+      {
+        heading: "LEGB Rule",
+        content: "Python searches for variables in this order: **L**ocal → **E**nclosing → **G**lobal → **B**uilt-in. This is called the LEGB rule.",
+        codeBlock: { language: "python", code: "x = 'global'\n\ndef outer():\n  x = 'enclosing'\n  \n  def inner():\n    x = 'local'\n    print(f'Inner sees: {x}')\n  \n  inner()\n  print(f'Outer sees: {x}')\n\nouter()\nprint(f'Module sees: {x}')\n\n# Without local x\ndef test():\n  # No local x, so uses global\n  print(f'Test sees: {x}')\n\ntest()", output: "Inner sees: local\nOuter sees: enclosing\nModule sees: global\nTest sees: global" }
+      },
+      {
+        heading: "Scope Resolution",
+        content: "Scope determines where a variable is accessible. Assignment creates a local variable unless declared `global` or `nonlocal`.",
+        codeBlock: { language: "python", code: "count = 0  # Global\n\ndef increment():\n  global count  # Declare we're using global\n  count += 1\n  return count\n\nprint(increment())\nprint(increment())\nprint(count)\n\n# Without global keyword\ndef bad_increment():\n  # This creates a LOCAL count!\n  # count = count + 1  # UnboundLocalError\n  pass\n\nprint('Global count:', count)", output: "1\n2\n2\nGlobal count: 2" }
+      },
+      {
+        heading: "Namespace Lifetime",
+        content: "**Built-in** - Created when Python starts, never deleted. **Global** - Created when module loads, deleted when program ends. **Local** - Created when function is called, deleted when function returns.",
+        codeBlock: { language: "python", code: "def create_counter():\n  count = 0  # Created when function is called\n  \n  def increment():\n    nonlocal count\n    count += 1\n    return count\n  \n  return increment\n  # count would normally be deleted here,\n  # but closure keeps it alive!\n\ncounter1 = create_counter()\ncounter2 = create_counter()\n\nprint(counter1())  # 1\nprint(counter1())  # 2\nprint(counter2())  # 1 (separate namespace)", output: "1\n2\n1" }
+      },
+      {
+        heading: "Practical Examples",
+        content: "Understanding namespaces helps avoid bugs, organize code, and use advanced features like closures and decorators.",
+        codeBlock: { language: "python", code: "# Avoiding name conflicts\nimport math\n\n# Don't do this:\n# from math import *  # Pollutes namespace\n\n# Do this:\nfrom math import pi, sqrt\n\nprint(f'Pi: {pi}')\nprint(f'Sqrt(16): {sqrt(16)}')\n\n# Or this:\nimport math as m\nprint(f'E: {m.e}')\n\n# Check current namespace\nprint('\\nLocal variables:', list(locals().keys())[:3])", output: "Pi: 3.141592653589793\nSqrt(16): 4.0\nE: 2.718281828459045\n\nLocal variables: ['math', 'pi', 'sqrt']" }
+      }
+    ],
+    {
+      type: VisualizationType.FLOWCHART,
+      label: "LEGB Lookup Order",
+      data: { steps: ["Search Local", "Not found? Search Enclosing", "Not found? Search Global", "Not found? Search Built-in", "Not found? NameError"] }
+    },
+    "Large projects use namespaces to organize code into modules. Understanding scope prevents bugs in closures, decorators, and class methods.",
+    "Remember LEGB: Local, Enclosing, Global, Built-in. Use global/nonlocal sparingly. Namespaces prevent naming conflicts."
   ),
 
   "Python Closures": createContent(
@@ -1496,7 +2039,15 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
     {
       type: VisualizationType.PLAYGROUND,
       label: "Decorator Demo",
-      data: { initialCode: "def timer_decorator(func):\n  import time\n  def wrapper(*args, **kwargs):\n    start = time.time()\n    result = func(*args, **kwargs)\n    end = time.time()\n    print(f'Time: {end - start:.4f}s')\n    return result\n  return wrapper\n\n@timer_decorator\ndef slow_function():\n  total = sum(range(1000000))\n  return total\n\nslow_function()" }
+      data: {
+        initialCode: "print('Before function')\nresult = 5 * 2\nprint(result)\nprint('After function')",
+        steps: [
+          { line: 1, output: "Before function", variables: {} },
+          { line: 2, variables: { result: 10 } },
+          { line: 3, output: "10", variables: { result: 10 } },
+          { line: 4, output: "After function", variables: { result: 10 } }
+        ]
+      }
     },
     "Decorators are everywhere: Flask routes (@app.route), Django views, authentication, caching, logging, timing.",
     "Use @wraps to preserve metadata. Keep decorators simple. Chain decorators for composition."
@@ -1567,10 +2118,108 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
     {
       type: VisualizationType.PLAYGROUND,
       label: "datetime Demo",
-      data: { initialCode: "from datetime import datetime, timedelta\n\n# Birthday countdown\ntoday = datetime.now()\nbirthday = datetime(2024, 12, 25)\n\ndays_until = (birthday - today).days\nprint(f'Days until Christmas: {days_until}')" }
+      data: {
+        initialCode: "year = 2024\nmonth = 12\nday = 25\ndate_str = str(year) + '-' + str(month) + '-' + str(day)\nprint(date_str)",
+        steps: [
+          { line: 1, variables: { year: 2024 } },
+          { line: 2, variables: { year: 2024, month: 12 } },
+          { line: 3, variables: { year: 2024, month: 12, day: 25 } },
+          { line: 4, variables: { year: 2024, month: 12, day: 25, date_str: "2024-12-25" } },
+          { line: 5, output: "2024-12-25", variables: { year: 2024, month: 12, day: 25, date_str: "2024-12-25" } }
+        ]
+      }
     },
     "datetime is used in logging systems, scheduling tasks, calculating ages, tracking events, and time-based analytics.",
     "datetime objects are immutable. Use timedelta for arithmetic. Always consider timezones for production apps."
+  ),
+
+  "How to get current date and time in Python?": createContent(
+    "Get Current Date and Time",
+    "Beginner",
+    "Getting the current date and time is a common task in programming. Python provides multiple ways to accomplish this using the `datetime` and `time` modules.",
+    [
+      {
+        heading: "Using datetime.now()",
+        content: "The most common way to get current date and time is using `datetime.now()` from the datetime module.",
+        codeBlock: { language: "python", code: "from datetime import datetime\n\n# Get current date and time\nnow = datetime.now()\nprint(now)\nprint(type(now))\n\n# Access components\nprint(f'Year: {now.year}')\nprint(f'Month: {now.month}')\nprint(f'Day: {now.day}')\nprint(f'Hour: {now.hour}')\nprint(f'Minute: {now.minute}')\nprint(f'Second: {now.second}')", output: "2024-12-13 11:37:37.123456\n<class 'datetime.datetime'>\nYear: 2024\nMonth: 12\nDay: 13\nHour: 11\nMinute: 37\nSecond: 37" }
+      },
+      {
+        heading: "Get Only Date or Time",
+        content: "Extract just the date or time portion using `.date()` and `.time()` methods.",
+        codeBlock: { language: "python", code: "from datetime import datetime\n\nnow = datetime.now()\n\n# Get only date\ntoday = now.date()\nprint(f'Date: {today}')\nprint(type(today))\n\n# Get only time\ncurrent_time = now.time()\nprint(f'Time: {current_time}')\nprint(type(current_time))", output: "Date: 2024-12-13\n<class 'datetime.date'>\nTime: 11:37:37.123456\n<class 'datetime.time'>" }
+      },
+      {
+        heading: "Formatted Output",
+        content: "Format the current datetime for display using `strftime()` or f-strings.",
+        codeBlock: { language: "python", code: "from datetime import datetime\n\nnow = datetime.now()\n\n# Different formats\nprint(now.strftime('%Y-%m-%d %H:%M:%S'))\nprint(now.strftime('%B %d, %Y'))\nprint(now.strftime('%I:%M %p'))\nprint(now.strftime('%A, %d %B %Y'))\n\n# Using f-string\nprint(f'{now:%Y-%m-%d}')\nprint(f'{now:%H:%M:%S}')", output: "2024-12-13 11:37:37\nDecember 13, 2024\n11:37 AM\nFriday, 13 December 2024\n2024-12-13\n11:37:37" }
+      },
+      {
+        heading: "Using time Module",
+        content: "The `time` module provides alternative ways to get current time, especially useful for timestamps.",
+        codeBlock: { language: "python", code: "import time\nfrom datetime import datetime\n\n# Unix timestamp (seconds since 1970)\ntimestamp = time.time()\nprint(f'Timestamp: {timestamp}')\n\n# Readable format\nreadable = time.ctime()\nprint(f'Readable: {readable}')\n\n# Convert timestamp to datetime\ndt = datetime.fromtimestamp(timestamp)\nprint(f'Datetime: {dt}')", output: "Timestamp: 1702463857.123456\nReadable: Fri Dec 13 11:37:37 2024\nDatetime: 2024-12-13 11:37:37.123456" }
+      },
+      {
+        heading: "Timezone Awareness",
+        content: "For production applications, always consider timezones. Use `datetime.now(tz)` or the `pytz` library.",
+        codeBlock: { language: "python", code: "from datetime import datetime, timezone\n\n# UTC time\nutc_now = datetime.now(timezone.utc)\nprint(f'UTC: {utc_now}')\n\n# Local time\nlocal_now = datetime.now()\nprint(f'Local: {local_now}')\n\n# ISO format (standard)\niso = datetime.now().isoformat()\nprint(f'ISO: {iso}')", output: "UTC: 2024-12-13 06:07:37.123456+00:00\nLocal: 2024-12-13 11:37:37.123456\nISO: 2024-12-13T11:37:37.123456" }
+      }
+    ],
+    {
+      type: VisualizationType.PLAYGROUND,
+      label: "Current DateTime Demo",
+      data: {
+        initialCode: "hour = 14\nminute = 30\nsecond = 45\ntime_str = str(hour) + ':' + str(minute) + ':' + str(second)\nprint(time_str)",
+        steps: [
+          { line: 1, variables: { hour: 14 } },
+          { line: 2, variables: { hour: 14, minute: 30 } },
+          { line: 3, variables: { hour: 14, minute: 30, second: 45 } },
+          { line: 4, variables: { hour: 14, minute: 30, second: 45, time_str: "14:30:45" } },
+          { line: 5, output: "14:30:45", variables: { hour: 14, minute: 30, second: 45, time_str: "14:30:45" } }
+        ]
+      }
+    },
+    "Logging systems timestamp every event. Web applications display current time to users. Schedulers check current time to trigger tasks.",
+    "Use datetime.now() for current datetime. Use .date() and .time() to extract parts. Always consider timezones in production."
+  ),
+
+  "Python Get Current Time": createContent(
+    "Get Current Time",
+    "Beginner",
+    "Getting just the current time (without the date) is useful for time tracking, performance monitoring, and displaying clocks in applications.",
+    [
+      {
+        heading: "Using datetime.now().time()",
+        content: "Extract the current time from a datetime object using the `.time()` method.",
+        codeBlock: { language: "python", code: "from datetime import datetime\n\n# Get current time\ncurrent_time = datetime.now().time()\nprint(current_time)\nprint(type(current_time))\n\n# Access components\nprint(f'Hour: {current_time.hour}')\nprint(f'Minute: {current_time.minute}')\nprint(f'Second: {current_time.second}')\nprint(f'Microsecond: {current_time.microsecond}')", output: "11:37:37.123456\n<class 'datetime.time'>\nHour: 11\nMinute: 37\nSecond: 37\nMicrosecond: 123456" }
+      },
+      {
+        heading: "Formatting Time",
+        content: "Format time for display using `strftime()` with time-specific format codes.",
+        codeBlock: { language: "python", code: "from datetime import datetime\n\nnow = datetime.now()\n\n# 24-hour format\nprint(now.strftime('%H:%M:%S'))\n\n# 12-hour format with AM/PM\nprint(now.strftime('%I:%M:%S %p'))\n\n# Just hours and minutes\nprint(now.strftime('%H:%M'))\n\n# With milliseconds\nprint(now.strftime('%H:%M:%S.%f'))", output: "11:37:37\n11:37:37 AM\n11:37\n11:37:37.123456" }
+      },
+      {
+        heading: "Using time.time()",
+        content: "`time.time()` returns the current time as a Unix timestamp (seconds since January 1, 1970).",
+        codeBlock: { language: "python", code: "import time\n\n# Get timestamp\ntimestamp = time.time()\nprint(f'Timestamp: {timestamp}')\nprint(f'Type: {type(timestamp)}')\n\n# Measure elapsed time\nstart = time.time()\nsum([i**2 for i in range(100000)])  # Some work\nend = time.time()\n\nelapsed = end - start\nprint(f'Elapsed: {elapsed:.4f} seconds')", output: "Timestamp: 1702463857.123456\nType: <class 'float'>\nElapsed: 0.0234 seconds" }
+      },
+      {
+        heading: "Performance Timing",
+        content: "Use `time.perf_counter()` for precise performance measurements. It's more accurate than `time.time()`.",
+        codeBlock: { language: "python", code: "import time\n\n# High-precision timing\nstart = time.perf_counter()\n\n# Simulate work\ntotal = 0\nfor i in range(1000000):\n  total += i\n\nend = time.perf_counter()\n\nprint(f'Result: {total}')\nprint(f'Time: {end - start:.6f} seconds')\nprint(f'Milliseconds: {(end - start) * 1000:.2f} ms')", output: "Result: 499999500000\nTime: 0.023456 seconds\nMilliseconds: 23.46 ms" }
+      },
+      {
+        heading: "Creating Time Objects",
+        content: "Create specific time objects using the `time` class from datetime module.",
+        codeBlock: { language: "python", code: "from datetime import time\n\n# Create specific times\nmorning = time(9, 30, 0)  # 9:30 AM\nafternoon = time(14, 15, 30)  # 2:15:30 PM\nmidnight = time(0, 0, 0)  # Midnight\n\nprint(morning)\nprint(afternoon)\nprint(midnight)\n\n# Compare times\nif morning < afternoon:\n  print('Morning comes before afternoon')", output: "09:30:00\n14:15:30\n00:00:00\nMorning comes before afternoon" }
+      }
+    ],
+    {
+      type: VisualizationType.CONSOLE,
+      label: "Time Display",
+      data: { logs: ["Current Time: 11:37:37", "24-hour: 11:37", "12-hour: 11:37 AM", "Timestamp: 1702463857.123", "Precision: 0.023456 seconds"] }
+    },
+    "Performance profilers use precise timing to identify bottlenecks. Digital clocks display current time. Rate limiters track time between requests.",
+    "Use datetime.now().time() for current time. Use time.perf_counter() for precise measurements. Format with strftime() for display."
   ),
 
   "Python strftime()": createContent(
@@ -1662,7 +2311,15 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
     {
       type: VisualizationType.PLAYGROUND,
       label: "Timestamp Demo",
-      data: { initialCode: "from datetime import datetime\nimport time\n\n# Current timestamp\nnow_ts = time.time()\nprint(f'Current timestamp: {now_ts}')\n\n# Convert to datetime\ndt = datetime.fromtimestamp(now_ts)\nprint(f'As datetime: {dt}')\n\n# Back to timestamp\nback = dt.timestamp()\nprint(f'Back to timestamp: {back}')" }
+      data: {
+        initialCode: "timestamp = 1702483200\ndays = timestamp / 86400\nprint(timestamp)\nprint(days)",
+        steps: [
+          { line: 1, variables: { timestamp: 1702483200 } },
+          { line: 2, variables: { timestamp: 1702483200, days: 19703.75 } },
+          { line: 3, output: "1702483200", variables: { timestamp: 1702483200, days: 19703.75 } },
+          { line: 4, output: "19703.75", variables: { timestamp: 1702483200, days: 19703.75 } }
+        ]
+      }
     },
     "Timestamps are used in databases, APIs, file systems, and distributed systems for consistent time representation.",
     "Timestamps are timezone-agnostic. Always store UTC in databases. Convert to local time for display."
@@ -1868,7 +2525,17 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
     {
       type: VisualizationType.PLAYGROUND,
       label: "JSON Demo",
-      data: { initialCode: "import json\n\n# Python dict to JSON\nuser = {\n  'name': 'Alice',\n  'email': 'alice@example.com',\n  'active': True\n}\n\njson_str = json.dumps(user, indent=2)\nprint('JSON:')\nprint(json_str)\n\n# JSON back to Python\nparsed = json.loads(json_str)\nprint('\\nParsed:')\nprint(parsed['name'])" }
+      data: {
+        initialCode: "user_name = 'Bob'\nuser_age = 25\nuser_active = True\nprint(user_name)\nprint(user_age)\nprint(user_active)",
+        steps: [
+          { line: 1, variables: { user_name: "Bob" } },
+          { line: 2, variables: { user_name: "Bob", user_age: 25 } },
+          { line: 3, variables: { user_name: "Bob", user_age: 25, user_active: true } },
+          { line: 4, output: "Bob", variables: { user_name: "Bob", user_age: 25, user_active: true } },
+          { line: 5, output: "25", variables: { user_name: "Bob", user_age: 25, user_active: true } },
+          { line: 6, output: "True", variables: { user_name: "Bob", user_age: 25, user_active: true } }
+        ]
+      }
     },
     "JSON is the standard format for APIs, configuration files, data exchange, and web services.",
     "Use loads/dumps for strings, load/dump for files. JSON doesn't support all Python types (sets, tuples become lists)."
@@ -1943,7 +2610,20 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
     {
       type: VisualizationType.PLAYGROUND,
       label: "*args and **kwargs Demo",
-      data: { initialCode: "def flexible_function(*args, **kwargs):\n  print('Positional arguments:')\n  for i, arg in enumerate(args):\n    print(f'  {i}: {arg}')\n  \n  print('\\nKeyword arguments:')\n  for key, value in kwargs.items():\n    print(f'  {key}: {value}')\n\nflexible_function(\n  1, 2, 3,\n  name='Alice',\n  age=25,\n  city='NYC'\n)" }
+      data: {
+        initialCode: "values = [10, 20, 30]\ntotal = 0\nfor v in values:\n  total = total + v\nprint(total)",
+        steps: [
+          { line: 1, variables: { values: [10, 20, 30] } },
+          { line: 2, variables: { values: [10, 20, 30], total: 0 } },
+          { line: 3, variables: { values: [10, 20, 30], total: 0, v: 10 } },
+          { line: 4, variables: { values: [10, 20, 30], total: 10, v: 10 } },
+          { line: 3, variables: { values: [10, 20, 30], total: 10, v: 20 } },
+          { line: 4, variables: { values: [10, 20, 30], total: 30, v: 20 } },
+          { line: 3, variables: { values: [10, 20, 30], total: 30, v: 30 } },
+          { line: 4, variables: { values: [10, 20, 30], total: 60, v: 30 } },
+          { line: 5, output: "60", variables: { values: [10, 20, 30], total: 60, v: 30 } }
+        ]
+      }
     },
     "Decorators, Flask routes, Django views, and API wrappers all heavily use *args and **kwargs for flexibility.",
     "Order matters: positional, *args, keyword-only, **kwargs. Use descriptive names like *values, **options when clearer."
