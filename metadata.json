@@ -1,5 +1,5 @@
 {
-  "name": "pytaste",
-  "description": "A minimalist, developer-centric Python tutorial platform featuring interactive visualizations.",
+  "name": "pycrumbs",
+  "description": "Learn Python step by step with interactive tutorials. A minimalist, terminal-inspired learning platform.",
   "requestFramePermissions": []
 }

@@ -1,0 +1,11 @@
+# robots.txt for PyCrumbs
+# https://pycrumbs.netlify.app/
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://pycrumbs.netlify.app/sitemap.xml
+
+# Crawl-delay (optional, for polite crawling)
+Crawl-delay: 1

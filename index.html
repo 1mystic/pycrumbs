@@ -1,101 +1,223 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytaste | Minimalist Python Tutorials</title>
-    <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="%231e2022"/><path d="M35 30h30a10 10 0 0 1 10 10v20a10 10 0 0 1-10 10H35a10 10 0 0 1-10-10V40a10 10 0 0 1 10-10z" fill="none" stroke="%23fbbf24" stroke-width="8"/><text x="50" y="62" font-family="monospace" font-size="40" font-weight="bold" fill="%23fbbf24" text-anchor="middle">py</text></svg>' />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
-    
-    <!-- PrismJS for Syntax Highlighting -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
-    
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            fontFamily: {
-              mono: ['"JetBrains Mono"', 'monospace'],
-            },
-            colors: {
-              bg: '#1e2022', /* Darker background */
-              bg_dark: '#161819', /* Sidebar/blocks */
-              main: '#fbbf24', /* Amber-400: High visibility on dark */
-              sub: '#9ca3af', /* Gray-400: WCAG compliant on dark bg */
-              text: '#f3f4f6', /* Gray-100: High contrast text */
-              error: '#f87171',
-              accent: '#3b82f6', /* Blue for secondary interactions */
-            }
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary Meta Tags -->
+  <title>PyCrumbs | Learn Python Step by Step</title>
+  <meta name="title" content="PyCrumbs - Interactive Python Tutorials" />
+  <meta name="description"
+    content="Master Python from scratch with bite-sized, interactive tutorials. PyCrumbs offers a minimalist, terminal-inspired learning experience for beginners and intermediate developers." />
+  <meta name="keywords"
+    content="Python, learn Python, Python tutorial, Python course, programming, coding, interactive learning, Python for beginners, Python syntax, Python loops, Python functions" />
+  <meta name="author" content="Atharv Khare" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://pycrumbs.netlify.app/" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://pycrumbs.netlify.app/" />
+  <meta property="og:title" content="PyCrumbs - Interactive Python Tutorials" />
+  <meta property="og:description"
+    content="Master Python from scratch with bite-sized, interactive tutorials. A minimalist, terminal-inspired learning experience." />
+  <meta property="og:image" content="https://pycrumbs.netlify.app/preview.png" />
+  <meta property="og:site_name" content="PyCrumbs" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://pycrumbs.netlify.app/" />
+  <meta property="twitter:title" content="PyCrumbs - Interactive Python Tutorials" />
+  <meta property="twitter:description"
+    content="Master Python from scratch with bite-sized, interactive tutorials. A minimalist, terminal-inspired learning experience." />
+  <meta property="twitter:image" content="https://pycrumbs.netlify.app/preview.png" />
+
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#1e2022" />
+  <meta name="msapplication-TileColor" content="#1e2022" />
+
+  <!-- Favicon -->
+  <link rel="icon"
+    href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="%231e2022"/><path d="M35 30h30a10 10 0 0 1 10 10v20a10 10 0 0 1-10 10H35a10 10 0 0 1-10-10V40a10 10 0 0 1 10-10z" fill="none" stroke="%23fbbf24" stroke-width="8"/><text x="50" y="62" font-family="monospace" font-size="40" font-weight="bold" fill="%23fbbf24" text-anchor="middle">py</text></svg>' />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+    rel="stylesheet">
+
+  <!-- TailwindCSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- PrismJS for Syntax Highlighting -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css"
+    rel="stylesheet" />
+
+  <!-- Schema.org Structured Data -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "PyCrumbs",
+      "url": "https://pycrumbs.netlify.app/",
+      "description": "Interactive Python tutorials for beginners and intermediate developers",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://pycrumbs.netlify.app/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Learn Python with PyCrumbs",
+      "description": "Master Python from scratch with bite-sized, interactive tutorials",
+      "provider": {
+        "@type": "Organization",
+        "name": "PyCrumbs",
+        "sameAs": "https://pycrumbs.netlify.app/"
+      },
+      "educationalLevel": "Beginner to Intermediate",
+      "programmingLanguage": "Python"
+    }
+    </script>
+
+  <!-- Google Analytics (replace GA_TRACKING_ID with your actual ID) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            bg: '#1e2022', /* Darker background */
+            bg_dark: '#161819', /* Sidebar/blocks */
+            main: '#fbbf24', /* Amber-400: High visibility on dark */
+            sub: '#9ca3af', /* Gray-400: WCAG compliant on dark bg */
+            text: '#f3f4f6', /* Gray-100: High contrast text */
+            error: '#f87171',
+            accent: '#3b82f6', /* Blue for secondary interactions */
           }
         }
       }
-    </script>
-    <style>
-      body {
-        background-color: #1e2022;
-        color: #f3f4f6;
-        font-family: 'JetBrains Mono', monospace;
-      }
-      /* Custom Scrollbar */
-      ::-webkit-scrollbar {
-        width: 10px;
-        height: 10px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #161819;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #374151;
-        border-radius: 5px;
-        border: 2px solid #161819;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #fbbf24;
-      }
-      .typing-cursor::after {
-        content: '▋';
-        animation: blink 1s step-start infinite;
-        color: #fbbf24;
-      }
-      @keyframes blink {
-        50% { opacity: 0; }
-      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #1e2022;
+      color: #f3f4f6;
+      font-family: 'JetBrains Mono', monospace;
+    }
 
-      /* PrismJS Overrides for JetBrains Look */
-      pre[class*="language-"] {
-        background: transparent !important;
-        text-shadow: none !important;
-        font-family: 'JetBrains Mono', monospace !important;
-        font-size: 0.875rem !important; /* text-sm */
-        margin: 0 !important;
-        padding: 1rem !important;
-        border-radius: 0 !important;
-      }
-      code[class*="language-"], pre[class*="language-"] {
-        color: #a9b7c6 !important; /* Default text color */
-      }
-      /* Line Numbers Style */
-      .line-numbers .line-numbers-rows {
-        border-right: 1px solid #323232 !important;
-      }
-      .line-numbers-rows > span:before {
-        color: #606366 !important;
-      }
-      /* Keyword colors tweak for better contrast */
-      .token.comment { color: #808080 !important; font-style: italic; }
-      .token.keyword { color: #cc7832 !important; font-weight: bold; } /* Orange/Brown */
-      .token.string { color: #6a8759 !important; } /* Green */
-      .token.function { color: #ffc66d !important; } /* Yellow */
-      .token.number { color: #6897bb !important; } /* Blue */
-      .token.operator { color: #a9b7c6 !important; }
-      .token.class-name { color: #a9b7c6 !important; }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
 
-    </style>
+    ::-webkit-scrollbar-track {
+      background: #161819;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #374151;
+      border-radius: 5px;
+      border: 2px solid #161819;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #fbbf24;
+    }
+
+    .typing-cursor::after {
+      content: '▋';
+      animation: blink 1s step-start infinite;
+      color: #fbbf24;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    /* PrismJS Overrides for JetBrains Look */
+    pre[class*="language-"] {
+      background: transparent !important;
+      text-shadow: none !important;
+      font-family: 'JetBrains Mono', monospace !important;
+      font-size: 0.875rem !important;
+      /* text-sm */
+      margin: 0 !important;
+      padding: 1rem !important;
+      border-radius: 0 !important;
+    }
+
+    code[class*="language-"],
+    pre[class*="language-"] {
+      color: #a9b7c6 !important;
+      /* Default text color */
+    }
+
+    /* Line Numbers Style */
+    .line-numbers .line-numbers-rows {
+      border-right: 1px solid #323232 !important;
+    }
+
+    .line-numbers-rows>span:before {
+      color: #606366 !important;
+    }
+
+    /* Keyword colors tweak for better contrast */
+    .token.comment {
+      color: #808080 !important;
+      font-style: italic;
+    }
+
+    .token.keyword {
+      color: #cc7832 !important;
+      font-weight: bold;
+    }
+
+    /* Orange/Brown */
+    .token.string {
+      color: #6a8759 !important;
+    }
+
+    /* Green */
+    .token.function {
+      color: #ffc66d !important;
+    }
+
+    /* Yellow */
+    .token.number {
+      color: #6897bb !important;
+    }
+
+    /* Blue */
+    .token.operator {
+      color: #a9b7c6 !important;
+    }
+
+    .token.class-name {
+      color: #a9b7c6 !important;
+    }
+  </style>
   <script type="importmap">
 {
   "imports": {
@@ -108,15 +230,18 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
+  <link rel="stylesheet" href="/index.css">
 </head>
-  <body>
-    <div id="root"></div>
-    <!-- Load PrismJS scripts at end of body -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
+<body>
+  <div id="root"></div>
+  <!-- Load PrismJS scripts at end of body -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
   <script type="module" src="/index.tsx"></script>
 </body>
+
 </html>
