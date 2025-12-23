@@ -58,6 +58,8 @@ const SyntaxHighlight: React.FC<{ code: string; currentLine?: number }> = ({ cod
 
     let lastIndex = 0;
     tokens.forEach((token) => {
+      if (token.index < lastIndex) return;
+
       if (token.index > lastIndex) {
         parts.push(<span key={key++}>{remaining.substring(lastIndex, token.index)}</span>);
       }

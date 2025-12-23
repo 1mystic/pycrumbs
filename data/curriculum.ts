@@ -869,12 +869,12 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
       type: VisualizationType.PLAYGROUND,
       label: "Function Demo",
       data: {
-        initialCode: "message = 'Hello'\nname = 'World'\ngreeting = message + ' ' + name\nprint(greeting)",
+        initialCode: "def greeting(name) : \n   print(\"Hello\",name) \n \ngreeting('Josh')",
         steps: [
-          { line: 1, variables: { message: "Hello" } },
-          { line: 2, variables: { message: "Hello", name: "World" } },
-          { line: 3, variables: { message: "Hello", name: "World", greeting: "Hello World" } },
-          { line: 4, output: "Hello World", variables: { message: "Hello", name: "World", greeting: "Hello World" } }
+          { line: 1, variables: {  } },
+          { line: 2, variables: {  } },
+          { line: 3, variables: {  } },
+          { line: 4, output: "Hello Josh", variables: {  } }
         ]
       }
     },
@@ -1050,14 +1050,12 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
       type: VisualizationType.PLAYGROUND,
       label: "Function Arguments Demo",
       data: {
-        initialCode: "first = 'John'\nlast = 'Doe'\nage = 30\nfull_name = first + ' ' + last\nprint(full_name)\nprint(age)",
+        initialCode: "def greet(name,age) : \n    print(f\"{name} is {age} years old\") \n \n greet('Josh',55)\n",
         steps: [
-          { line: 1, variables: { first: "John" } },
-          { line: 2, variables: { first: "John", last: "Doe" } },
-          { line: 3, variables: { first: "John", last: "Doe", age: 30 } },
-          { line: 4, variables: { first: "John", last: "Doe", age: 30, full_name: "John Doe" } },
-          { line: 5, output: "John Doe", variables: { first: "John", last: "Doe", age: 30, full_name: "John Doe" } },
-          { line: 6, output: "30", variables: { first: "John", last: "Doe", age: 30, full_name: "John Doe" } }
+          { line: 1, variables: {} },
+          { line: 2, variables: {} },
+          { line: 3, variables: {} },
+          { line: 4,  output: "Josh is 55 years old" , variables: {  } }
         ]
       }
     },
@@ -1480,14 +1478,20 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
       type: VisualizationType.PLAYGROUND,
       label: "CSV Writing Demo",
       data: {
-        initialCode: "header = 'Name,Age,City'\nrow1 = 'Alice,25,NYC'\nrow2 = 'Bob,30,LA'\nprint(header)\nprint(row1)\nprint(row2)",
+        initialCode: "import csv\n \nrows = [[\"name\", \"age\"], [\"Alice\", 30]]\n \nwith open(\"example.csv\", \"w\") as f:\n    writer = csv.writer(f)\n    writer.writerows(rows)\n \nwith open(\"example.csv\", \"r\") as f:\n    print(f.read())\n \n" ,
         steps: [
-          { line: 1, variables: { header: "Name,Age,City" } },
-          { line: 2, variables: { header: "Name,Age,City", row1: "Alice,25,NYC" } },
-          { line: 3, variables: { header: "Name,Age,City", row1: "Alice,25,NYC", row2: "Bob,30,LA" } },
-          { line: 4, output: "Name,Age,City", variables: { header: "Name,Age,City", row1: "Alice,25,NYC", row2: "Bob,30,LA" } },
-          { line: 5, output: "Alice,25,NYC", variables: { header: "Name,Age,City", row1: "Alice,25,NYC", row2: "Bob,30,LA" } },
-          { line: 6, output: "Bob,30,LA", variables: { header: "Name,Age,City", row1: "Alice,25,NYC", row2: "Bob,30,LA" } }
+          { line: 1, variables: {  } },
+          { line: 2, variables: {  } },
+          { line: 3, variables: { rows: [["name", "age"], ["Alice", 30]] } },
+          { line: 4,  variables: { rows: [["name", "age"], ["Alice", 30]] } },
+          { line: 5, variables: { rows: [["name", "age"], ["Alice", 30]] } },
+          { line: 6, variables: { rows: [["name", "age"], ["Alice", 30]] } },
+          { line: 7, variables: { rows: [["name", "age"], ["Alice", 30]] } },
+          { line: 8, variables: { rows: [["name", "age"], ["Alice", 30]] } },
+          { line: 9, variables: { rows: [["name", "age"], ["Alice", 30]] } },
+          { line: 10, output: "name,age", variables: {  rows: [["name", "age"], ["Alice", 30]]} },
+          { line: 11, output: "Alice,30", variables: { rows: [["name", "age"], ["Alice", 30]] } }
+
         ]
       }
     },
@@ -1715,16 +1719,15 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
       type: VisualizationType.PLAYGROUND,
       label: "Polymorphism Demo",
       data: {
-        initialCode: "animals = ['Dog', 'Cat', 'Bird']\nsounds = ['Woof', 'Meow', 'Chirp']\nfor i in range(3):\n  print(animals[i] + ' says ' + sounds[i])",
+        initialCode: "class Shape:\n    def area(self):\n        pass\n\nclass Rectangle(Shape):\n    def __init__(self, width, height):\n        self.width = width\n        self.height = height\n    \n    def area(self):\n        return self.width * self.height\n\nclass Circle(Shape):\n    def __init__(self, radius):\n        self.radius = radius\n    \n    def area(self):\n        return 3.14 * self.radius ** 2\n\nrect = Rectangle(4, 5)\ncirc = Circle(3)\n\nshapes = [rect, circ]\nfor shape in shapes:\n    print(f'Area: {shape.area()}')",
         steps: [
-          { line: 1, variables: { animals: ["Dog", "Cat", "Bird"] } },
-          { line: 2, variables: { animals: ["Dog", "Cat", "Bird"], sounds: ["Woof", "Meow", "Chirp"] } },
-          { line: 3, variables: { animals: ["Dog", "Cat", "Bird"], sounds: ["Woof", "Meow", "Chirp"], i: 0 } },
-          { line: 4, output: "Dog says Woof", variables: { animals: ["Dog", "Cat", "Bird"], sounds: ["Woof", "Meow", "Chirp"], i: 0 } },
-          { line: 3, variables: { animals: ["Dog", "Cat", "Bird"], sounds: ["Woof", "Meow", "Chirp"], i: 1 } },
-          { line: 4, output: "Cat says Meow", variables: { animals: ["Dog", "Cat", "Bird"], sounds: ["Woof", "Meow", "Chirp"], i: 1 } },
-          { line: 3, variables: { animals: ["Dog", "Cat", "Bird"], sounds: ["Woof", "Meow", "Chirp"], i: 2 } },
-          { line: 4, output: "Bird says Chirp", variables: { animals: ["Dog", "Cat", "Bird"], sounds: ["Woof", "Meow", "Chirp"], i: 2 } }
+          { line: 20, variables: { rect: { width: 4, height: 5 } } },
+          { line: 21, variables: { rect: { width: 4, height: 5 }, circ: { radius: 3 } } },
+          { line: 23, variables: { rect: { width: 4, height: 5 }, circ: { radius: 3 }, shapes: [{ width: 4, height: 5 }, { radius: 3 }] } },
+          { line: 24, variables: { rect: { width: 4, height: 5 }, circ: { radius: 3 }, shapes: [{ width: 4, height: 5 }, { radius: 3 }], shape: { width: 4, height: 5 } } },
+          { line: 25, output: "Area: 20", variables: { rect: { width: 4, height: 5 }, circ: { radius: 3 }, shapes: [{ width: 4, height: 5 }, { radius: 3 }], shape: { width: 4, height: 5 } } },
+          { line: 24, variables: { rect: { width: 4, height: 5 }, circ: { radius: 3 }, shapes: [{ width: 4, height: 5 }, { radius: 3 }], shape: { radius: 3 } } },
+          { line: 25, output: "Area: 28.26", variables: { rect: { width: 4, height: 5 }, circ: { radius: 3 }, shapes: [{ width: 4, height: 5 }, { radius: 3 }], shape: { radius: 3 } } }
         ]
       }
     },
@@ -1809,21 +1812,12 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
       type: VisualizationType.PLAYGROUND,
       label: "Lambda Demo",
       data: {
-        initialCode: "numbers = [1, 2, 3, 4, 5]\nsquares = []\nfor n in numbers:\n  squares.append(n * n)\nprint(squares)",
+        initialCode: "# Lambda to add two numbers\nadd = lambda x, y: x + y\nprint(add(5, 3))\n",
         steps: [
-          { line: 1, variables: { numbers: [1, 2, 3, 4, 5] } },
-          { line: 2, variables: { numbers: [1, 2, 3, 4, 5], squares: [] } },
-          { line: 3, variables: { numbers: [1, 2, 3, 4, 5], squares: [], n: 1 } },
-          { line: 4, variables: { numbers: [1, 2, 3, 4, 5], squares: [1], n: 1 } },
-          { line: 3, variables: { numbers: [1, 2, 3, 4, 5], squares: [1], n: 2 } },
-          { line: 4, variables: { numbers: [1, 2, 3, 4, 5], squares: [1, 4], n: 2 } },
-          { line: 3, variables: { numbers: [1, 2, 3, 4, 5], squares: [1, 4], n: 3 } },
-          { line: 4, variables: { numbers: [1, 2, 3, 4, 5], squares: [1, 4, 9], n: 3 } },
-          { line: 3, variables: { numbers: [1, 2, 3, 4, 5], squares: [1, 4, 9], n: 4 } },
-          { line: 4, variables: { numbers: [1, 2, 3, 4, 5], squares: [1, 4, 9, 16], n: 4 } },
-          { line: 3, variables: { numbers: [1, 2, 3, 4, 5], squares: [1, 4, 9, 16], n: 5 } },
-          { line: 4, variables: { numbers: [1, 2, 3, 4, 5], squares: [1, 4, 9, 16, 25], n: 5 } },
-          { line: 5, output: "[1, 4, 9, 16, 25]", variables: { numbers: [1, 2, 3, 4, 5], squares: [1, 4, 9, 16, 25], n: 5 } }
+          
+          { line: 2, variables: {  } },
+          { line: 3, output: "8", variables: { add : {__class__:"function"} } }
+        
         ]
       }
     },
@@ -1901,21 +1895,29 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
       type: VisualizationType.PLAYGROUND,
       label: "Generator Demo",
       data: {
-        initialCode: "count = 0\nfor i in range(3):\n  count = count + 1\n  print(count)",
-        steps: [
-          { line: 1, variables: { count: 0 } },
-          { line: 2, variables: { count: 0, i: 0 } },
-          { line: 3, variables: { count: 1, i: 0 } },
-          { line: 4, output: "1", variables: { count: 1, i: 0 } },
-          { line: 2, variables: { count: 1, i: 1 } },
-          { line: 3, variables: { count: 2, i: 1 } },
-          { line: 4, output: "2", variables: { count: 2, i: 1 } },
-          { line: 2, variables: { count: 2, i: 2 } },
-          { line: 3, variables: { count: 3, i: 2 } },
-          { line: 4, output: "3", variables: { count: 3, i: 2 } }
-        ]
+        initialCode: "def count_up(n):\n    count = 1\n    while count <= n:\n        yield count\n        count += 1\n\nfor num in count_up(3):\n    print(num)",
+steps: [
+  { line: 8, variables: {} },
+  { line: 1, variables: { n: 3 } },
+  { line: 2, variables: { n: 3, count: 1 } },
+  { line: 3, variables: { n: 3, count: 1 } },
+  { line: 4, variables: { n: 3, count: 1 } },
+  { line: 9, output: "1", variables: { num: 1 } },
+  { line: 5, variables: { n: 3, count: 2 } },
+  { line: 3, variables: { n: 3, count: 2 } },
+  { line: 4, variables: { n: 3, count: 2 } },
+  { line: 9, output: "2", variables: { num: 2 } },
+  { line: 5, variables: { n: 3, count: 3 } },
+  { line: 3, variables: { n: 3, count: 3 } },
+  { line: 4, variables: { n: 3, count: 3 } },
+  { line: 9, output: "3", variables: { num: 3 } },
+  { line: 5, variables: { n: 3, count: 4 } },
+  { line: 3, variables: { n: 3, count: 4 } },
+  { line: 4, variables: { n: 3, count: 4 } }
+]
       }
     },
+  
     "Generators are essential for processing large files, streaming data, and building data pipelines without loading everything into memory.",
     "Use generators for large datasets. They're lazy and memory-efficient. Can only iterate once."
   ),
@@ -2040,12 +2042,17 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
       type: VisualizationType.PLAYGROUND,
       label: "Decorator Demo",
       data: {
-        initialCode: "print('Before function')\nresult = 5 * 2\nprint(result)\nprint('After function')",
+        initialCode: "def logger(func):\n    def wrapper(*args):\n        print(f\"Calling {func.__name__}\")\n        return func(*args)\n    return wrapper\n\n@logger\ndef greet(name):\n    return f\"Hello {name}\"\n\nprint(greet(\"Alice\"))",
         steps: [
-          { line: 1, output: "Before function", variables: {} },
-          { line: 2, variables: { result: 10 } },
-          { line: 3, output: "10", variables: { result: 10 } },
-          { line: 4, output: "After function", variables: { result: 10 } }
+          { line: 11, variables: {} },
+          { line: 1, variables: { func: "greet" } },
+          { line: 2, variables: { func: "greet" } },
+          { line: 5, variables: { func: "greet" } },
+          { line: 3, output: "Calling greet", variables: { args: ["Alice"] } },
+          { line: 4, variables: { args: ["Alice"] } },
+          { line: 9, variables: { name: "Alice" } },
+          { line: 11, output: "Hello Alice", variables: {} }
+          
         ]
       }
     },
@@ -2119,14 +2126,12 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
       type: VisualizationType.PLAYGROUND,
       label: "datetime Demo",
       data: {
-        initialCode: "year = 2024\nmonth = 12\nday = 25\ndate_str = str(year) + '-' + str(month) + '-' + str(day)\nprint(date_str)",
+        initialCode: "from datetime import datetime\n\nnow = datetime.now()\nprint(now)",
         steps: [
-          { line: 1, variables: { year: 2024 } },
-          { line: 2, variables: { year: 2024, month: 12 } },
-          { line: 3, variables: { year: 2024, month: 12, day: 25 } },
-          { line: 4, variables: { year: 2024, month: 12, day: 25, date_str: "2024-12-25" } },
-          { line: 5, output: "2024-12-25", variables: { year: 2024, month: 12, day: 25, date_str: "2024-12-25" } }
-        ]
+          { line: 1, variables: {} },
+          { line: 3, variables: { now: "2025-12-23 12:50:00.123456" } },
+          { line: 4, output: "2025-12-23 12:50:00.123456", variables: { now: "2025-12-23 12:50:00.123456" } }
+     ]
       }
     },
     "datetime is used in logging systems, scheduling tasks, calculating ages, tracking events, and time-based analytics.",
@@ -2168,14 +2173,14 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
       type: VisualizationType.PLAYGROUND,
       label: "Current DateTime Demo",
       data: {
-        initialCode: "hour = 14\nminute = 30\nsecond = 45\ntime_str = str(hour) + ':' + str(minute) + ':' + str(second)\nprint(time_str)",
+
+         initialCode: "from datetime import datetime\n\nnow = datetime.now()\nprint(now.strftime(\"%Y-%m-%d %H:%M:%S\"))",
         steps: [
-          { line: 1, variables: { hour: 14 } },
-          { line: 2, variables: { hour: 14, minute: 30 } },
-          { line: 3, variables: { hour: 14, minute: 30, second: 45 } },
-          { line: 4, variables: { hour: 14, minute: 30, second: 45, time_str: "14:30:45" } },
-          { line: 5, output: "14:30:45", variables: { hour: 14, minute: 30, second: 45, time_str: "14:30:45" } }
-        ]
+          { line: 1, variables: {} },
+          { line: 3, variables: { now: "2025-12-23 12:50:00.123456" } },
+          { line: 4, output: "2025-12-23 12:50:00", variables: { now: "2025-12-23 12:50:00" } }
+  
+         ]
       }
     },
     "Logging systems timestamp every event. Web applications display current time to users. Schedulers check current time to trigger tasks.",
@@ -2312,13 +2317,16 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
       type: VisualizationType.PLAYGROUND,
       label: "Timestamp Demo",
       data: {
-        initialCode: "timestamp = 1702483200\ndays = timestamp / 86400\nprint(timestamp)\nprint(days)",
+         initialCode: "from datetime import datetime\n\n# Timestamp to datetime\ntimestamp = 1734990000\ndt = datetime.fromtimestamp(timestamp)\nprint(\"From timestamp:\", dt.strftime(\"%Y-%m-%d %H:%M:%S\"))\n\n# Datetime to timestamp\nnow = datetime.now()\ntimestamp_now = now.timestamp()\nprint(\"To timestamp:\", int(timestamp_now))",
         steps: [
-          { line: 1, variables: { timestamp: 1702483200 } },
-          { line: 2, variables: { timestamp: 1702483200, days: 19703.75 } },
-          { line: 3, output: "1702483200", variables: { timestamp: 1702483200, days: 19703.75 } },
-          { line: 4, output: "19703.75", variables: { timestamp: 1702483200, days: 19703.75 } }
-        ]
+          { line: 1, variables: {} },
+          { line: 4, variables: { timestamp: 1734990000 } },
+          { line: 5, variables: { timestamp: 1734990000, dt: "2025-01-01 00:00:00" } },
+          { line: 6, output: "From timestamp: 2025-01-01 00:00:00", variables: { timestamp: 1734990000, dt: "2025-01-01 00:00:00" } },
+          { line: 9, variables: { timestamp: 1734990000, dt: "2025-01-01 00:00:00", now: "2025-12-23 12:50:00" } },
+          { line: 10, variables: { timestamp: 1734990000, dt: "2025-01-01 00:00:00", now: "2025-12-23 12:50:00", timestamp_now: 1766760000 } },
+          { line: 11, output: "To timestamp: 1766760000", variables: { timestamp: 1734990000, dt: "2025-01-01 00:00:00", now: "2025-12-23 12:50:00", timestamp_now: 1766760000 } }
+   ]
       }
     },
     "Timestamps are used in databases, APIs, file systems, and distributed systems for consistent time representation.",
@@ -2526,14 +2534,15 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
       type: VisualizationType.PLAYGROUND,
       label: "JSON Demo",
       data: {
-        initialCode: "user_name = 'Bob'\nuser_age = 25\nuser_active = True\nprint(user_name)\nprint(user_age)\nprint(user_active)",
+         initialCode: "import json\n\n# Python dict to JSON string\ndata = {\"name\": \"Alice\", \"age\": 30}\njson_str = json.dumps(data)\nprint(\"To JSON:\", json_str)\n\n# JSON string to Python dict\nparsed = json.loads(json_str)\nprint(\"From JSON:\", parsed[\"name\"])",
         steps: [
-          { line: 1, variables: { user_name: "Bob" } },
-          { line: 2, variables: { user_name: "Bob", user_age: 25 } },
-          { line: 3, variables: { user_name: "Bob", user_age: 25, user_active: true } },
-          { line: 4, output: "Bob", variables: { user_name: "Bob", user_age: 25, user_active: true } },
-          { line: 5, output: "25", variables: { user_name: "Bob", user_age: 25, user_active: true } },
-          { line: 6, output: "True", variables: { user_name: "Bob", user_age: 25, user_active: true } }
+          { line: 1, variables: {} },
+          { line: 4, variables: { data: { name: "Alice", age: 30 } } },
+          { line: 5, variables: { data: { name: "Alice", age: 30 }, json_str: '{"name": "Alice", "age": 30}' } },
+          { line: 6, output: 'To JSON: {"name": "Alice", "age": 30}', variables: { data: { name: "Alice", age: 30 }, json_str: '{"name": "Alice", "age": 30}' } },
+          { line: 9, variables: { data: { name: "Alice", age: 30 }, json_str: '{"name": "Alice", "age": 30}', parsed: { name: "Alice", age: 30 } } },
+          { line: 10, output: "From JSON: Alice", variables: { data: { name: "Alice", age: 30 }, json_str: '{"name": "Alice", "age": 30}', parsed: { name: "Alice", age: 30 } } }
+
         ]
       }
     },
@@ -2611,17 +2620,12 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
       type: VisualizationType.PLAYGROUND,
       label: "*args and **kwargs Demo",
       data: {
-        initialCode: "values = [10, 20, 30]\ntotal = 0\nfor v in values:\n  total = total + v\nprint(total)",
+        initialCode: "def func(*args, **kwargs):\n    print(\"Args:\", args)\n    print(\"Kwargs:\", kwargs)\n\nfunc(1, 2, 3, name=\"Alice\", age=30)",
         steps: [
-          { line: 1, variables: { values: [10, 20, 30] } },
-          { line: 2, variables: { values: [10, 20, 30], total: 0 } },
-          { line: 3, variables: { values: [10, 20, 30], total: 0, v: 10 } },
-          { line: 4, variables: { values: [10, 20, 30], total: 10, v: 10 } },
-          { line: 3, variables: { values: [10, 20, 30], total: 10, v: 20 } },
-          { line: 4, variables: { values: [10, 20, 30], total: 30, v: 20 } },
-          { line: 3, variables: { values: [10, 20, 30], total: 30, v: 30 } },
-          { line: 4, variables: { values: [10, 20, 30], total: 60, v: 30 } },
-          { line: 5, output: "60", variables: { values: [10, 20, 30], total: 60, v: 30 } }
+          { line: 1, variables: {} },
+          { line: 5, variables: {} },
+          { line: 2, output: "Args: (1, 2, 3)", variables: { args: [1, 2, 3], kwargs: { name: "Alice", age: 30 } } },
+          { line: 3, output: "Kwargs: {'name': 'Alice', 'age': 30}", variables: { args: [1, 2, 3], kwargs: { name: "Alice", age: 30 } } }
         ]
       }
     },
@@ -2649,15 +2653,7 @@ export const CURRICULUM_DATA: Record<string, TutorialContent> = {
           output: "GitHub: github.com/1mystic\nLinkedIn: linkedin.com/in/atharvkhare\nTwitter/X: twitter.com/1mystic4u\nEmail: atharvkhare18@gmail.com"
         }
       },
-      {
-        heading: "Social Links",
-        content: "**GitHub:** [1mystic](https://github.com/1mystic)\n\n**LinkedIn:** [atharvkhare](https://linkedin.com/in/atharvkhare)\n\n**Twitter/X:** [@1mystic4u](https://twitter.com/1mystic4u)\n\n**Email:** atharvkhare18@gmail.com",
-        codeBlock: {
-          language: "python",
-          code: "# PyCrumbs - Learn Python Step by Step\n# An interactive Python learning platform\n\nprint('Made with ❤️ by Atharv Khare')\nprint('Happy coding!')",
-          output: "Made with ❤️ by Atharv Khare\nHappy coding!"
-        }
-      }
+      
     ],
     {
       type: VisualizationType.CONSOLE,
